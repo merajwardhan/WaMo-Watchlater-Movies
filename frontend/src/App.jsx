@@ -4,12 +4,14 @@ import './App.css'
 import Home from './pages/Home'
 import Favorites from './pages/favorites.jsx';
 import Saved from './pages/save.jsx'
+import NavBar from './components/NavBar.jsx';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
   <>
+    <NavBar />
     <main className='mainContent'>
       <Routes>
         <Route path='/' element={<Home />} />
