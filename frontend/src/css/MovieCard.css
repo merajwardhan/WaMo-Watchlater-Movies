@@ -1,4 +1,4 @@
-.movie-card {
+.movieCard {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -9,23 +9,23 @@
   flex-direction: column;
 }
 
-.movie-card:hover {
+.movieCard:hover {
   transform: translateY(-5px);
 }
 
-.movie-poster {
+.moviePoster {
   position: relative;
   aspect-ratio: 2/3;
   width: 100%;
 }
 
-.movie-poster img {
+.moviePoster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.movie-overlay {
+.movieOverlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,11 +44,11 @@
   padding: 1rem;
 }
 
-.movie-card:hover .movie-overlay {
+.movieCard:hover .movieOverlay {
   opacity: 1;
 }
 
-.favorite-btn {
+.favoriteBtn {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -65,11 +65,36 @@
   transition: background-color 0.2s;
 }
 
-.favorite-btn:hover {
+.favoriteBtn:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.favorite-btn.active {
+.favoriteBtn.active {
+  color: #ff4757;
+}
+
+.saveBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.saveBtn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.saveBtn.active {
   color: #ff4757;
 }
 
@@ -108,7 +133,7 @@
 }
 
 @media (max-width: 768px) {
-  .movie-card {
+  .movieCard {
     font-size: 0.9rem;
   }
 
@@ -116,7 +141,13 @@
     padding: 0.75rem;
   }
 
-  .favorite-btn {
+  .favoriteBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+
+  .saveBtn {
     width: 32px;
     height: 32px;
     font-size: 1.2rem;

@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-.search-form {
+.searchForm {
   max-width: 600px;
   margin: 0 auto 2rem;
   display: flex;
@@ -13,7 +13,7 @@
   box-sizing: border-box;
 }
 
-.search-input {
+.searchInput {
   flex: 1;
   padding: 0.75rem 1rem;
   border: none;
@@ -23,12 +23,12 @@
   font-size: 1rem;
 }
 
-.search-input:focus {
+.searchInput:focus {
   outline: none;
   box-shadow: 0 0 0 2px #666;
 }
 
-.search-button {
+.searchBButton {
   padding: 0.75rem 1.5rem;
   background-color: #e50914;
   color: white;
@@ -38,7 +38,7 @@
   white-space: nowrap;
 }
 
-.search-button:hover {
+.searchButton:hover {
   background-color: #f40612;
 }
 
@@ -48,12 +48,12 @@
     padding: 1rem 0;
   }
 
-  .search-form {
+  .searchForm {
     margin-bottom: 1rem;
   }
 }
 
-.movies-grid {
+.moviesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
