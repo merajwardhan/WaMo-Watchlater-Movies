@@ -53,6 +53,12 @@ export default function Home(){
   const handleSearch = (e) => {
     e.preventDefault();//This prevents the default behaviour (clearing the input box)
     alert(searchQuery);
+    try {
+      
+    } catch (error) {
+      console.log(`Error occurred while searching for the movie : ${error}`);
+      
+    }
   }
 
   if(loading){
