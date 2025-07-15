@@ -1,20 +1,76 @@
 import MovieCard from "../components/MovieCard";
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import '../css/Home.css';
+import { getPopularMovies , searchMovies } from "../services/api";
 
 export default function Home(){
 
   const [ searchQuery , setSearchQuery ] = useState("");
+  const [ movies , setMovies ] = useState([]);
+  const [ loading , setLoading ] = useState(true);
+  const [ error , setError ] = useState(null);
 
-  const movies = [
-    {id : 1 , title : 'John Wick', releaseDate : '2018'},
-    {id : 2 , title : 'Terminator', releaseDate : '1999'},
-    {id : 3 , title : 'Cars 3', releaseDate : '2015'},
-  ]
+  useEffect( () => {
+    const fetchMovies = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const fetchedMovies = await getPopularMovies(); 
+
+        if(fetchedMovies.length > 0) {
+          setMovies(fetchedMovies);
+        }else{
+          setMovies([{
+            Title : 'Failed to fetch Movies',
+            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Year : 'Sorry Dude, No info!'
+          },{
+            Title : 'Failed to fetch Movies',
+            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Year : 'Sorry Dude, No info!'
+          },{
+            Title : 'Failed to fetch Movies',
+            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Year : 'Sorry Dude, No info!'
+          }]);
+        }
+
+      } catch (error) {
+        console.log(`Error occurred while fetching movies : ${error}`);
+        setError('Failed to load Movies, Please try again later..');
+        setMovies([]);
+      } finally {
+        setLoading(false);
+      }
+    } 
+
+    
+    fetchMovies();  
+
+  }, [] )
 
   const handleSearch = (e) => {
     e.preventDefault();//This prevents the default behaviour (clearing the input box)
     alert(searchQuery);
+  }
+
+  if(loading){
+    return <>
+      <div className = 'favorites'>
+        <h2>Loading content please wait with your popcorns!</h2>
+        <p>Take a seat, it's entertainment time.</p>
+      </div>
+    </>
+  }
+
+  if(error){
+    return <>
+      <div className = 'favorites'>
+        <h2>Something went wrong while loading the contents!</h2>
+        <p>ERROR : {error}</p>
+      </div>
+    </>
   }
 
   return <>
@@ -32,7 +88,7 @@ export default function Home(){
     </form>
 
     <div className = "moviesGrid">
-      {movies.map((mov) => (<MovieCard {...mov} key={mov.id}/>))} 
+      {movies.map((mov) => (<MovieCard {...mov} key={mov.imdbID}/>))} 
     </div>
   </div>
   </>
