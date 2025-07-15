@@ -13,7 +13,7 @@ export default function MovieCard(props){
     return <>
         <div className = "movieCard">
           <div className = "moviePoster">
-            <img src={props.url} alt={props.title} />
+            <img src={props.Poster} alt={props.Title} />
             <div className = "movieOverlay">
               <button className = "favoriteBtn" onClick={onLike}>
                 ❤️
@@ -24,8 +24,8 @@ export default function MovieCard(props){
             </div>
           </div>
           <div>
-            <h3>{props.title}</h3>
-            <p>{props.releaseDate}</p>
+            <h3>{props.Title}</h3>
+            <p>{props.Year}</p>
           </div>
         </div>
     </>
