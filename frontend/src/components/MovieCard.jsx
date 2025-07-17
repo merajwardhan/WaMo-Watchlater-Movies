@@ -10,10 +10,13 @@ export default function MovieCard(props){
     alert('Clicked Save!!!');
   }
 
+  // if(props.Poster === 'N/A') props.Poster = 'https://media.istockphoto.com/id/1409329028 should now modify props directly in react
+  const GENERIC_POSTER = 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
+
     return <>
         <div className = "movieCard">
           <div className = "moviePoster">
-            <img src={props.Poster} alt={props.Title} />
+            <img src={props.Poster != 'N/A' ? props.Poster : GENERIC_POSTER} alt={props.Title} />
             <div className = "movieOverlay">
               <button className = "favoriteBtn" onClick={onLike}>
                 ❤️
