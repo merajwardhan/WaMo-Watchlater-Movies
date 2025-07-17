@@ -50,14 +50,48 @@ export default function Home(){
 
   }, [] )
 
-  const handleSearch = (e) => {
-    e.preventDefault();//This prevents the default behaviour (clearing the input box)
-    alert(searchQuery);
+  const handleSearch = async (event) => {
+    event.preventDefault();//This prevents the default behaviour (clearing the input box)
+
+    const query = searchQuery.trim();
+
+    if(!query) {
+      setError(`Error while conducting the search, Please check the input and try again!`)
+      searchMovies([]);
+      return
+    }
+
     try {
+
+      const fetchedMovies = await searchMovies(query);  
+
+        setLoading(true);
+        setError(null);
+      
+        if(fetchedMovies.length > 0) {
+          setMovies(fetchedMovies);
+        }else{
+          setMovies([{
+            Title : 'Failed to fetch Movies',
+            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Year : 'Sorry Dude, No info!'
+          },{
+            Title : 'Failed to fetch Movies',
+            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Year : 'Sorry Dude, No info!'
+          },{
+            Title : 'Failed to fetch Movies',
+            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Year : 'Sorry Dude, No info!'
+          }]);
+        }
       
     } catch (error) {
       console.log(`Error occurred while searching for the movie : ${error}`);
-      
+      setError(`Failed to load Movies, Please try again later..`)
+      setMovies([])
+    }finally{
+      setLoading(false);
     }
   }
 
