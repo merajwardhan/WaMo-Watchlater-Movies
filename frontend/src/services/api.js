@@ -2,7 +2,7 @@
 // dotenv.config();
 // need for backend not frontend
 
-const BASE_URL = import.meta.env.BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const searchTerm = ['the a' , 'of the', 'time', 'end', 'man', 'day', 'night', 'love', 'dead', 'last', 'new', 'story', 'life', 'dark', 'sex'
   , 'age', 'dawn', 'women', 'girl', 'boy', 'love', 'heart', 'family', 'friend', 'light', 'blue', 'red', 'black', 'white', 'story', 'world'
@@ -15,7 +15,6 @@ export const getPopularMovies = async () => {
 
   try {
 
-    console.log(`${BASE_URL}&s=${randomSearchTerm}&page=${pageNumber}`)
     const response = await fetch(`${BASE_URL}&s=${randomSearchTerm}&page=${pageNumber}&type=movie`);
     const data = await response.json();
 
@@ -35,7 +34,6 @@ export const getPopularMovies = async () => {
 export const searchMovies = async (query) => {
   try {
     
-    console.log(`${BASE_URL}&s=${randomSearchTerm}&page=${pageNumber}`)
     const response = await fetch(`${BASE_URL}&s=${encodeURI(query)}&type=movie`);
     const data = await response.json();
 
