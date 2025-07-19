@@ -2,26 +2,27 @@
 // dotenv.config();
 // need for backend not frontend
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-const searchTerm = ['the a' , 'of the', 'time', 'end', 'man', 'day', 'night', 'love', 'dead', 'last', 'new', 'story', 'life', 'dark', 'sex'
-  , 'age', 'dawn', 'women', 'girl', 'boy', 'love', 'heart', 'family', 'friend', 'light', 'blue', 'red', 'black', 'white', 'story', 'world'
-  , 'game', 'road', 'dream', 'truth', 'fall', 'rise', 'killer', 'war', 'battle', 'attack'
-];
-const randomSearchTerm = searchTerm[Math.floor(Math.random() * searchTerm.length)];
-const pageNumber = Math.floor(Math.random() * 100) + 1;
+const BASE_URL = import.meta.env.VITE_BASE_URL_TMBD;
+const API_KEY = import.meta.env.VITE_API_KEY_TMDB;
 
 export const getPopularMovies = async () => {
 
   try {
 
-    const response = await fetch(`${BASE_URL}&s=${randomSearchTerm}&page=${pageNumber}&type=movie`);
+    const response = await fetch(`${BASE_URL}/movie/popular`, {
+      method : 'GET',
+      headers : {
+        'Content-Type' : 'applicaton/json',
+        'Authorization' : `Bearer ${API_KEY}`
+      }
+    });
+
     const data = await response.json();
 
-    if(data.Response == 'True'){
-        return data.Search;       
+    if(data.results.length > 0){
+        return data.results;       
     }else{
-      console.log(`OMDb Api error : ${data.error}`);
+      console.log(`TMDB Api error : ${data}`);
       return [];
     }
 
@@ -34,13 +35,21 @@ export const getPopularMovies = async () => {
 export const searchMovies = async (query) => {
   try {
     
-    const response = await fetch(`${BASE_URL}&s=${encodeURI(query)}&type=movie`);
+    //Page number should be a state variable or something like that so that we can go to the next page.
+    const response = await fetch(`${BASE_URL}/search/movie?query=${encodeURI(query)}&include_adult=false&language=en-US&page=1`, {
+      method : 'GET',
+      headers : {
+        'Content-Type' : 'applicaton/json',
+        'Authorization' : `Bearer ${API_KEY}`
+      }
+    });
+
     const data = await response.json();
 
-    if(data.Response == 'True'){
-        return data.Search;       
+    if(data.results.length > 0){
+        return data.results;       
     }else{
-      console.log(`OMDb Api error : ${data.error}`);
+      console.log(`OMDb Api error : ${data}`);
       return [];
     }
 
