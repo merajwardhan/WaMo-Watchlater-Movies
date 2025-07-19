@@ -128,7 +128,7 @@ export default function Home(){
     </form>
 
     <div className = "moviesGrid">
-      {movies.map((mov) => (<MovieCard {...mov} key={mov.imdbID}/>))} 
+      {movies.map((mov) => (<MovieCard {...mov} key={mov.id}/>))} 
     </div>
   </div>
   </>
