@@ -17,17 +17,17 @@ export default function MovieCard(props){
   const GENERIC_POSTER = 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
 
   const [ imgSrc , SetImgSrc ] = useState(
-    props.Poster != 'N/A' ? `${IMAGE_BASE_URL}${props.poster_path}` : GENERIC_POSTER
+    props.poster_path ? `${IMAGE_BASE_URL}${props.poster_path}` : GENERIC_POSTER
   )
 
   const handleImageError = () => {
-    SetImgSrc(GENERIC_POSTER);
+    if(!props.poster_path) SetImgSrc(GENERIC_POSTER);
   }
 
     return <>
         <div className = "movieCard">
           <div className = "moviePoster">
-            <img src={imgSrc} alt={props.original_title} onError={handleImageError} />
+            <img src={imgSrc} alt={props.title} onError={handleImageError} />
             <div className = "movieOverlay">
               <button className = "favoriteBtn" onClick={onLike}>
                 ❤️
@@ -38,7 +38,7 @@ export default function MovieCard(props){
             </div>
           </div>
           <div>
-            <h3>{props.original_title}</h3>
+            <h3>{props.title}</h3>
             <p>{props.release_date}</p>
           </div>
         </div>
