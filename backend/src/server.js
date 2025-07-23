@@ -1,7 +1,9 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
-import { movieRouter } from '../routes/movies';
+import movieRouter from '../routes/movies.js';
 import { cors } from 'hono/cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = new Hono();
 
