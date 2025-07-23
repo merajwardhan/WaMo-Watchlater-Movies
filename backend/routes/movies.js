@@ -22,29 +22,30 @@ movieRouter.get('/popular', async (c) => {
   
       if(data.results.length > 0){
           return  c.json({
-            results : data.results
+            details : data
           }, 200);       
       }else{
         console.log(`TMDB Api error : ${data}`);
         return c.json({
-          results : []
+          details : []
         }, 404);
       }
   
     } catch (error) {
       return c.json({
-          results : []
+          details : []
       }, 400);
     }
 })
 
 movieRouter.get('/search', async (c) => {
   const query = c.req.query('query');
+  const page = c.req.query('page');
   if(!query) return c.json({ msg : `No query found!`}, 402);
 
   try {
     //Page number should be a state variable or something like that so that we can go to the next page.
-    const response = await fetch(`${BASE_URL}/search/movie?query=${encodeURI(query)}&include_adult=false&language=en-US&page=1`, {
+    const response = await fetch(`${BASE_URL}/search/movie?query=${encodeURI(query)}&include_adult=false&language=en-US&page=${page}`, {
       method : 'GET',
       headers : {
         'Content-Type' : 'applicaton/json',
@@ -56,18 +57,18 @@ movieRouter.get('/search', async (c) => {
 
     if(data.results.length > 0){
         return c.json({
-          results : data.results
+          details : data
         }, 200);
     }else{
       console.log(`TMDB Api error : ${data}`);
       return c.json({
-        results : []
+        details : []
       });
     }
 
   } catch (error) {
       return c.json({
-        results : []
+        details : []
       }, 200);
     }
 })
