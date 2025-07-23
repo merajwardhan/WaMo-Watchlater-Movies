@@ -1,16 +1,16 @@
 // movie related routes
-import Hono from 'hono';
+import { Hono } from 'hono';
 import dotenv from 'dotenv';
 dotenv.config();
 
 // export const movieRouter = new Hono().basePath('/movie'); This results in the path being : /api/movie/movie/popular
-export const movieRouter = new Hono();
-const BASE_URL = process.env.BASE_URL_TMDB;
+const movieRouter = new Hono();
+const BASE_URL = process.env.BASE_URL_TMBD;
 const API_KEY = process.env.API_KEY_TMDB;
 
 movieRouter.get('/popular', async (c) => {
   try {
-      const response = await fetch(`${BASE_URL}/movie/popular`, {
+      const response = await fetch(`${BASE_URL}/movie/popular?language=en-US&page=1`, {
         method : 'GET',
         headers : {
           'Content-Type' : 'application/json',
@@ -71,3 +71,5 @@ movieRouter.get('/search', async (c) => {
       }, 200);
     }
 })
+
+export default movieRouter; //made this default export to handle module not found error (tl,dr this did not resolve the error but stil kept the default export)
