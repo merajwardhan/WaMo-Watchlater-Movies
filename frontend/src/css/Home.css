@@ -42,6 +42,15 @@
   background-color: #f40612;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pageButton {
+  margin: 0px 10px 0px 10px;
+}
+
 
 @media (max-width: 639px) {
   .home {
