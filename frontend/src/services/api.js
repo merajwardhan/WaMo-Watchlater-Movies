@@ -10,7 +10,7 @@ export const getPopularMovies = async () => {
     const response = await fetch('http://localhost:3000/api/movie/popular');
     const data = await response.json();
 
-    if(data.results.length > 0) return data.results;
+    if(data.details.results.length > 0) return data.details;
     else return [];
   } catch (error) {
     console.log(`Network Or Api error in (getPopularMovies) : ${error}`)
@@ -18,12 +18,12 @@ export const getPopularMovies = async () => {
   }
 }
 
-export const searchMovies = async (query) => {
+export const searchMovies = async (query, page) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/movie/search?query=${query}`);
+    const response = await fetch(`http://localhost:3000/api/movie/search?query=${query}&page=${page}`);
     const data = await response.json();
 
-    if(data.results.length > 0) return data.results;
+    if(data.details.results.length > 0) return data.details;
     else return [];
   } catch (error) {
     console.log(`Network Or Api error in (searchMovies) : ${error}`)
