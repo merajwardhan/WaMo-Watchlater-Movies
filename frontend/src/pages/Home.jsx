@@ -116,15 +116,15 @@ export default function Home(){
         }else{
           setMovies([{
             Title : 'Failed to fetch Movies',
-            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Poster : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
             Year : 'Sorry Dude, No info!'
           },{
             Title : 'Failed to fetch Movies',
-            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Poster : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
             Year : 'Sorry Dude, No info!'
           },{
             Title : 'Failed to fetch Movies',
-            Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
+            Poster : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
             Year : 'Sorry Dude, No info!'
           }]);
         } 
@@ -189,10 +189,10 @@ export default function Home(){
     </div>
   </div>
   <div className="pagination">
-    <button onClick={goToPrevious} disabled={page === 1}>
+    <button onClick={goToPrevious} disabled={page === 1} className="pageButton">
       Previous Page
     </button>
-    <button onClick={goToNext} disabled={page === totalPages}>
+    <button onClick={goToNext} disabled={page === totalPages} className="pageButton">
       Next Page
     </button>
   </div>
