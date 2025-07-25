@@ -144,12 +144,10 @@ export default function Home(){
 
   const goToPrevious = () => {
     if(page > 1) setPage(page - 1);
-    // pageChange()
   }
 
   const goToNext = () => {
     if(page < totalPages) setPage(page + 1)
-    // pageChange();
   }
 
   if(loading){
