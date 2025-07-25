@@ -3,6 +3,8 @@ import { Hono } from 'hono';
 import movieRouter from '../routes/movies.js';
 import { cors } from 'hono/cors';
 const app = new Hono();
+import { connectDB } from '../config/database.js';
+await connectDB();
 
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
@@ -14,6 +16,7 @@ app.get('/', (c) => {
 
 app.route('/api/movie', movieRouter);
 
+//The connection to the databse should be establised before you start the server
 const server = serve({
   fetch: app.fetch,
   port: 3000
