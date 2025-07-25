@@ -7,7 +7,6 @@ import Saved from './pages/save.jsx'
 import NavBar from './components/NavBar.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
   <>
