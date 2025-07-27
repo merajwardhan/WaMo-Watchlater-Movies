@@ -4,7 +4,7 @@ import { sessionMiddleware } from 'hono-session';
 const SESSION_SECRET =  process.env.SESSION_SECRET;
 
 export const manageSession = sessionMiddleware({
-  secret : SESSION_SECRET, //This is encrypting and decrypting the cookie.
+  secret : SESSION_SECRET, //This is for decrypting the session cookie
   cookieOptions : {
     httpOnly: true, 
     secure : false, //true for production, allows request only from HTTPS
