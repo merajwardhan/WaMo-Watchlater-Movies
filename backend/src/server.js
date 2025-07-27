@@ -2,13 +2,15 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import movieRouter from '../routes/movies.js';
 import { cors } from 'hono/cors';
+import { manageSession } from '../middlewares/auth.js';
 const app = new Hono();
 import { connectDB } from '../config/database.js';
 await connectDB();
 
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
-}));
+  // , credentials : true //for cookies/session
+}), manageSession );
 
 app.get('/', (c) => {
   return c.text('Hello from HONO')
