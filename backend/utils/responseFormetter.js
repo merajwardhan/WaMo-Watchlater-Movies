@@ -1,5 +1,6 @@
 // Those extra function that we require are given below
 // Utility functions for Google OAuth
+import 'dotenv/config';
 
 export async function exchangeCodeForTokens(code){
   const tokenUrl = 'https://oauth2.googleapis.com/token'
@@ -51,69 +52,32 @@ export async function getUserInfo(accessToken) {
     throw error;
   }
 }
-// export async function exchangeCodeForTokens(code) {
-//   const tokenUrl = 'https://oauth2.googleapis.com/token'
-  
-//   const response = await fetch(tokenUrl, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//     },
-//     body: new URLSearchParams({
-//       client_id: process.env.GOOGLE_CLIENT_ID,
-//       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-//       code: code,
-//       grant_type: 'authorization_code',
-//       redirect_uri: process.env.REDIRECT_URI || 'http://localhost:3000/auth/google/callback',
-//     }),
-//   })
 
-//   if (!response.ok) {
-//     const errorText = await response.text()
-//     throw new Error(`Token exchange failed: ${response.status} - ${errorText}`)
-//   }
+export async function refreshAccessToken(refreshToken) {
+  try {
+    const response = await fetch('https://oauth2.googleapis.com/token', {
+      method : 'POST',
+      headers : {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      body : new URLSearchParams({
+        client_id : process.env.GOOGLE_CLIETN_ID,
+        client_secret : process.env.GOOGLE_CLIETN_SECRET,
+        grant_type : 'refresh_token',
+        refresh_token : refreshToken
+      })
+    })
 
-//   const tokenData = await response.json()
-//   return tokenData
-// }
+    if(!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Error while refreshing the token : ${errorText}`);
+    }
 
-// export async function getUserInfo(accessToken) {
-//   const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-//     headers: {
-//       'Authorization': `Bearer ${accessToken}`,
-//     },
-//   })
+    const data = await response.json();
+    return data;
 
-//   if (!response.ok) {
-//     const errorText = await response.text()
-//     throw new Error(`Failed to fetch user info: ${response.status} - ${errorText}`)
-//   }
-
-//   const userInfo = await response.json()
-//   return userInfo
-// }
-
-// // Optional: Refresh access token
-// export async function refreshAccessToken(refreshToken) {
-//   const tokenUrl = 'https://oauth2.googleapis.com/token'
-  
-//   const response = await fetch(tokenUrl, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//     },
-//     body: new URLSearchParams({
-//       client_id: process.env.GOOGLE_CLIENT_ID,
-//       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-//       refresh_token: refreshToken,
-//       grant_type: 'refresh_token',
-//     }),
-//   })
-
-//   if (!response.ok) {
-//     const errorText = await response.text()
-//     throw new Error(`Token refresh failed: ${response.status} - ${errorText}`)
-//   }
-
-//   return await response.json()
-// }
+  } catch (error) {
+    if(error.messsage === 'invalid_grant') window.location.href = '/google'; //check if i can do this in the backend as this may or may not access the window location, as it is node js
+    return new Error(`Error while creating the refresh token : ${error}`);
+  }
+}
