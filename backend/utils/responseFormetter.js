@@ -77,7 +77,7 @@ export async function refreshAccessToken(refreshToken) {
     return data;
 
   } catch (error) {
-    if(error.messsage === 'invalid_grant') window.location.href = '/google'; //check if i can do this in the backend as this may or may not access the window location, as it is node js
+    if(error.messsage === 'invalid_grant') return null; //when using the function add conditional if statement that redirects user t0 /google endpoint for relogin
     return new Error(`Error while creating the refresh token : ${error}`);
   }
 }
