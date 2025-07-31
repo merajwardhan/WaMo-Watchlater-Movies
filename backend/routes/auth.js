@@ -12,7 +12,7 @@ authRouter.get('/google', (c) => {
   `redirect_url=http://localhost:3000/api/auth/google/callback&` + 
   `response_type=code&` +
   `scope=email profile&` + 
-  `access_type=offline`
+  `access_type=offline` //access type offline gives you refresh_token
 
   return c.redirect(googleAuthUrl);//when the user visits this endpoint the user is automatically redirected to the google auth website.
 })
@@ -38,7 +38,7 @@ authRouter.get('/google/callback', async (c) => {
       id: userInfo.id,
       email: userInfo.email,
       name: userInfo.name,
-      picture: userInfo.name,
+      picture: userInfo.picture,
       provider: 'google'
     })
 
