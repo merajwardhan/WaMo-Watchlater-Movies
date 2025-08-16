@@ -23,9 +23,6 @@ importers:
       hono:
         specifier: ^4.8.5
         version: 4.8.5
-      hono-session:
-        specifier: ^1.2.0
-        version: 1.2.0
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -174,10 +171,6 @@ packages:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
     engines: {node: '>=4'}
 
-  hono-session@1.2.0:
-    resolution: {integrity: sha512-shkN6UgMt9RyJwXbY+tVQP7THkWCYMP2YP6jNNVIEu718dY9MWZBTqjvbh4C/n8c/yjcjRIIDLeWUdrtODAGow==}
-    engines: {node: '>=18.18.0'}
-
   hono@4.8.5:
     resolution: {integrity: sha512-Up2cQbtNz1s111qpnnECdTGqSIUIhZJMLikdKkshebQSEBcoUKq6XJayLGqSZWidiH0zfHRCJqFu062Mz5UuRA==}
     engines: {node: '>=16.9.0'}
@@ -188,9 +181,6 @@ packages:
 
   ignore-by-default@1.0.1:
     resolution: {integrity: sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==}
-
-  iron-webcrypto@1.2.1:
-    resolution: {integrity: sha512-feOM6FaSr6rEABp/eDfVseKyTMDt+KGpeB35SkVn9Tyn0CqvVsY3EwI0v5i8nMHyJnzCIQf7nsy3p41TPkJZhg==}
 
   is-binary-path@2.1.0:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
@@ -549,14 +539,6 @@ snapshots:
 
   has-flag@3.0.0: {}
 
-  hono-session@1.2.0:
-    dependencies:
-      debug: 4.4.1(supports-color@5.5.0)
-      hono: 4.8.5
-      iron-webcrypto: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-
   hono@4.8.5: {}
 
   https-proxy-agent@7.0.6:
@@ -567,8 +549,6 @@ snapshots:
       - supports-color
 
   ignore-by-default@1.0.1: {}
-
-  iron-webcrypto@1.2.1: {}
 
   is-binary-path@2.1.0:
     dependencies:
