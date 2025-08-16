@@ -48,7 +48,7 @@ export async function getUserInfo(accessToken) {
 
     return await response.json(); 
   } catch (error) {
-    if(error.name === 'TypeError') throw new Error(`Network Error , Could not reach Google API for accessToken conversion`)
+    if(error.name === 'TypeError') throw new Error(`Network Error , Could not reach Google API for accessToken conversion \nError Object : ${error}`)
     throw error;
   }
 }
