@@ -1,8 +1,8 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import movieRouter from '../routes/movies.js';
+import authRouter from '../routes/auth.js';
 import { cors } from 'hono/cors';
-import { manageSession } from '../middlewares/auth.js';
 const app = new Hono();
 import { connectDB } from '../config/database.js';
 await connectDB();
@@ -10,13 +10,14 @@ await connectDB();
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
   // , credentials : true //for cookies/session
-}), manageSession );
+}), ); // add jwtAuth middleware 
 
 app.get('/', (c) => {
   return c.text('Hello from HONO')
 }) 
 
 app.route('/api/movie', movieRouter);
+app.route('/api/auth', authRouter);
 
 //The connection to the databse should be establised before you start the server
 const server = serve({
