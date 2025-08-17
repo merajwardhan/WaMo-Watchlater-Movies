@@ -81,3 +81,20 @@ export async function refreshAccessToken(refreshToken) {
     return new Error(`Error while creating the refresh token : ${error}`);
   }
 }
+
+
+export async function getUsersFavoriteMovies(googleId){
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+export async function getUsersSavedMovies(googleId){
+  try {
+    
+  } catch (error) {
+    
+  }
+}
