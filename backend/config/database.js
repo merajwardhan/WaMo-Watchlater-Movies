@@ -24,4 +24,12 @@ export async function connectDB() {
   }
 }
 
-
+export async function createIndexes(){
+  try {
+    await mongoose.model('Users').init();
+    await mongoose.model('Movies').init();
+    console.log(`Successfully indexed the database`)
+  } catch (error) {
+    
+  }
+}
