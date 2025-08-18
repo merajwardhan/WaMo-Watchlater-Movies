@@ -1,6 +1,7 @@
 // Those extra function that we require are given below
 // Utility functions for Google OAuth
 import 'dotenv/config';
+import { User } from '../models/User.js';
 
 export async function exchangeCodeForTokens(code){
   const tokenUrl = 'https://oauth2.googleapis.com/token'
@@ -85,16 +86,45 @@ export async function refreshAccessToken(refreshToken) {
 
 export async function getUsersFavoriteMovies(googleId){
   try {
-    
-  } catch (error) {
-    
-  }
-}
+    const foundMovies = await User.aggregate({
+        { $match : { googleId }},
+        {
+          $lookup : {
+            from : 'Movies',
+            localField : 'favoriteMovies',
+            foreighField : '_id',
+            as : 'moviesDetails'
+          }
+        }
+      }).toArray(); // Returns the movies in from of array in the 'moviesDetails' field     
 
-export async function getUsersSavedMovies(googleId){
-  try {
-    
-  } catch (error) {
-    
+      return foundMovies; //This will return the whole user document with the new field which has the movies array
+
+    } catch (error) {
+      console.log(`Error while retrieving favorite movies!\nError : ${error}`)
+      return [];
+    }
   }
+
+  export async function getUsersSavedMovies(googleId){
+
+    try {
+      const foundMovies = await User.aggregate({
+          { $match : { googleId }},
+          {
+            $lookup : {
+              from : 'Movies',
+              localField : 'savedMovies',
+              foreighField : '_id',
+              as : 'moviesDetails'
+            }
+          }
+        }).toArray(); // Returns the movies in from of array in the 'favoriteMoviesDetails' field     
+
+        return foundMovies; //This will return the whole user document with the new field which has the movies array
+
+      } catch (error) {
+        console.log(`Error while retrieving favorite movies!\nError : ${error}`)
+        return [];
+      }
 }
