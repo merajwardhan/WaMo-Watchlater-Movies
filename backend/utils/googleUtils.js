@@ -1,7 +1,6 @@
 // Those extra function that we require are given below
 // Utility functions for Google OAuth
 import 'dotenv/config';
-import { User } from '../models/User.js';
 
 export async function exchangeCodeForTokens(code){
   const tokenUrl = 'https://oauth2.googleapis.com/token'
