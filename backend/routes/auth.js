@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { getSession } from 'hono-session';
+import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 
@@ -32,6 +33,8 @@ authRouter.get('/google/callback', async (c) => {
 
     //function that returns user information
     const userInfo = await getUserInfo(tokenResponse.access_token)
+
+    const jwtAuthToken = await saveUserGetToken(userInfo); // Create this function that takes user info and saves to mongo and returns the jwt token
 
     //store info in session
     // const session = await getSession(c);
