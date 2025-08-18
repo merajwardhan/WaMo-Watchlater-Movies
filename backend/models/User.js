@@ -7,10 +7,10 @@ const UserSchema = new Schema ({
   name : String,
   gmail : { type : String , unique : true },
   picture : String,
-  favoriteMovies : [],
-  savedMovies : []//check how to fill these arrays with movie documents.
-});//basic user schema defined , make changes later . Add a ref to the movies , in such a way that you don't have to look up all the movies for a specific user.
-//Create 2 collections for saved movies and favorite movies 
+  favoriteMovies : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Movies'}],
+  savedMovies : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Movies'}]
+});
+//Create 2 collections for saved movies and favorite movies in the database
 
 UserSchema.index({ googleId : 1 }); //indexing logic for finding the user.
 
