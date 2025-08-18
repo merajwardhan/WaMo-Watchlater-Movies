@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET;
 const { Schema } from mongoose;
 
 const UserSchema = new Schema ({
@@ -12,7 +13,11 @@ const UserSchema = new Schema ({
 });
 //Create 2 collections for saved movies and favorite movies in the database
 
-UserSchema.index({ googleId : 1 }); //indexing logic for finding the user.
+UserSchema.index({ googleId : 1 }); //This is schmema level indexing just for proactice.indexing logic for finding the user.
+
+UserSchema.methods.authToken = function(){
+  return jwt.sign(JWT_SECRET, { googleId : this.googleId }) // This is synchoronous because it does not have a CB function
+}
 
 export const User = mongoose.model('Users', UserSchema);
 
