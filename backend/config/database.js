@@ -30,6 +30,7 @@ export async function createIndexes(){
     await mongoose.model('Movies').init();
     console.log(`Successfully indexed the database`)
   } catch (error) {
-    
+    console.log(`Error while creating indexes on the DB \nError : ${error}`)
+    throw error;
   }
 }
