@@ -1,6 +1,6 @@
 // Those extra function that we require are given below
 // Utility functions for Google OAuth
-import 'dotenv/config';
+// import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 
 export async function exchangeCodeForTokens(code){
   const tokenUrl = 'https://oauth2.googleapis.com/token'
