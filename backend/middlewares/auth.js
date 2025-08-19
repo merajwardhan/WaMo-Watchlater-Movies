@@ -1,3 +1,21 @@
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+export const jwtAuth = function (c) {
+  try {
+    const token = c.req.cookie('jwt');
+    if(!token) return c.json({ msg : `No token provided`} , 401 );
+
+    const payload = jwt.verify(token, JWT_SECRET);
+    c.set('jwtToken', payload);
+
+    await next();
+    } catch (error) {
+      console.log(`Error while verifying the jwt token\nError : ${error}`) 
+      c.json({ msg : `Error occured, could not verify the JWT`} , 401 )
+    }  
+}
+
 // THIS IS THE PREVIOUS SESSION MANAGEMENT CODE WHICH IS TO BE REPLACED WITH JWT AUTH FOR SERVERLESS SUPPORT
 
 // import 'dotenv/config';
