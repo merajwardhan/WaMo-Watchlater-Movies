@@ -50,7 +50,7 @@ authRouter.get('/google/callback', async (c) => {
 
     // if(tokenResponse.refresh_token) session.set('refreshToken', tokenResponse.refresh_token); //store refresh token if you want to use it.
 
-    return c.cookie({
+    return c.cookie('jwt', jwtAuthToken { //first set the cookie name, then provide the actual cookie then set options 
       httpOnly : true,
       //secure : true,
       path : '/', //cookie is available to all endpoint of our site
