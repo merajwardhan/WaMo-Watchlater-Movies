@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { getSession } from 'hono-session';
 import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
-import 'dotenv/config';
+// import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 import jwt from 'jsonwebtoken';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
