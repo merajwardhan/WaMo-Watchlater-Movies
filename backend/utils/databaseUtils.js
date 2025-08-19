@@ -64,9 +64,12 @@ export async function saveUserGetToken (userInfo){
       }
     })    
 
-    //Add jwt creation logic here and then return the token.
+    const authToken = user.methods.authToken(); //Add jwt creation logic here and then return the token.
+
+    return authToken;
 
   } catch (error) {
-    
+    console.log(`Error while creating the Auth Token \nError : ${error}`);
+    throw error;
   }
 }
