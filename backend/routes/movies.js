@@ -1,7 +1,7 @@
 // movie related routes
 import { Hono } from 'hono';
-import dotenv from 'dotenv';
-dotenv.config();
+// import dotenv from 'dotenv';
+// dotenv.config(); //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 
 // export const movieRouter = new Hono().basePath('/movie'); This results in the path being : /api/movie/movie/popular
 const movieRouter = new Hono();
