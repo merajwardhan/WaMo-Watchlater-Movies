@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import movieRouter from '../routes/movies.js';
 import authRouter from '../routes/auth.js';
 import { cors } from 'hono/cors';
+import { jwtAuth } from '../middlewares/auth.js'
 const app = new Hono();
 import { connectDB , createIndexes } from '../config/database.js';
 await connectDB();
@@ -11,7 +12,7 @@ await createIndexes();
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
   // , credentials : true //for cookies/session
-}), ); // add jwtAuth middleware 
+}), jwtAuth); // add jwtAuth middleware 
 
 app.get('/', (c) => {
   return c.text('Hello from HONO')
