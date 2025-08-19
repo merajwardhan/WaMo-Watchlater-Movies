@@ -4,8 +4,9 @@ import movieRouter from '../routes/movies.js';
 import authRouter from '../routes/auth.js';
 import { cors } from 'hono/cors';
 const app = new Hono();
-import { connectDB } from '../config/database.js';
+import { connectDB , createIndexes } from '../config/database.js';
 await connectDB();
+await createIndexes(); 
 
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
