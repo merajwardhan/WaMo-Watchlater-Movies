@@ -50,7 +50,12 @@ authRouter.get('/google/callback', async (c) => {
 
     // if(tokenResponse.refresh_token) session.set('refreshToken', tokenResponse.refresh_token); //store refresh token if you want to use it.
 
-    return c.redirect('/') //return to homepage after everything is completed
+    return c.cookie({
+      httpOnly : true,
+      //secure : true,
+      path : '/', //cookie is available to all endpoint of our site
+      sameSite : 'Lax'
+    }).redirect('/') //return to homepage after everything is completed
   } catch (error) {
     console.error( `An error occured while connecting to Goolge auth : ${error}`);
     return c.json({ 
