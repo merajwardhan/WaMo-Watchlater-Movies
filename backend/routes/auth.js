@@ -55,7 +55,7 @@ authRouter.get('/google/callback', async (c) => {
       //secure : true,
       path : '/', //cookie is available to all endpoint of our site
       sameSite : 'Lax'
-    }).redirect('/') //return to homepage after everything is completed
+    }).redirect('/api/movie/popular') //return to homepage after everything is completed
   } catch (error) {
     console.error( `An error occured while connecting to Goolge auth : ${error}`);
     return c.json({ 

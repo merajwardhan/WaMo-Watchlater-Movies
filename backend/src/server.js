@@ -12,7 +12,7 @@ await createIndexes();
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
   // , credentials : true //for cookies/session
-}), jwtAuth); // add jwtAuth middleware 
+}), jwtAuth); 
 
 app.get('/', (c) => {
   return c.text('Hello from HONO')
