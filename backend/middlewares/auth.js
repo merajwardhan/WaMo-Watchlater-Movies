@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export const jwtAuth = function (c) {
+export const jwtAuth = async function (c) {
   try {
     const token = c.req.cookie('jwt');
     if(!token) return c.json({ msg : `No token provided`} , 401 );
