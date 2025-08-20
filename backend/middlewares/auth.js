@@ -7,9 +7,10 @@ export const jwtAuth = function (c) {
     if(!token) return c.json({ msg : `No token provided`} , 401 );
 
     const payload = jwt.verify(token, JWT_SECRET);
-    c.set('jwtToken', payload);
+    c.set('googleId', payload.googleId);
 
     await next();
+
     } catch (error) {
       console.log(`Error while verifying the jwt token\nError : ${error}`) 
       c.json({ msg : `Error occured, could not verify the JWT`} , 401 )
