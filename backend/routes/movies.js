@@ -32,6 +32,7 @@ movieRouter.get('/popular', async (c) => {
       }
   
     } catch (error) {
+      console.log(`Error in catch : ${error}`)  
       return c.json({
           details : []
       }, 400);
