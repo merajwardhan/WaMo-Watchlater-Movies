@@ -28,6 +28,20 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.navLinkUser {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s; /* Added border-color transition */
+  border-radius: 2px;
+  border: 1px solid #8b5cf6
+}
+
+.navLinkUser:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #cccccc; /* Optional: change border color on hover */
+}
+
 @media (max-width: 768px) {
   .navBar {
     padding: 1rem;
