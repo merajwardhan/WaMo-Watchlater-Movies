@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { getSession } from 'hono-session';
 import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
 // import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 import jwt from 'jsonwebtoken';
@@ -50,7 +49,7 @@ authRouter.get('/google/callback', async (c) => {
 
     // if(tokenResponse.refresh_token) session.set('refreshToken', tokenResponse.refresh_token); //store refresh token if you want to use it.
 
-    return c.cookie('jwt', jwtAuthToken { //first set the cookie name, then provide the actual cookie then set options 
+    return c.cookie('jwt', jwtAuthToken , { //first set the cookie name, then provide the actual cookie then set options 
       httpOnly : true,
       //secure : true,
       path : '/', //cookie is available to all endpoint of our site
@@ -64,6 +63,8 @@ authRouter.get('/google/callback', async (c) => {
     }, 500);
   }
 }) 
+
+export default authRouter;
 
 // Logout logic for session 
 //
