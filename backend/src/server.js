@@ -14,12 +14,24 @@ app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
 }), );  
 
+app.use('/api/auth/*', jwtAuth);
+
 app.get('/', (c) => {
   return c.text('Hello from HONO')
 }) 
 
-app.route('/api/movie', movieRouter);
-app.route('/api/auth', jwtAuth, authRouter);
+if (movieRouter) {
+  app.route('/api/movie', movieRouter);
+}else{
+  console.log(`movieRouter crashed! , ${movieRouter}`)
+}
+
+if (authRouter) {
+  app.route('/api/auth', authRouter);
+}else{
+  console.log(`authRouter crashed , ${authRouter}`)
+}
+
 
 //The connection to the databse should be establised before you start the server
 const server = serve({
