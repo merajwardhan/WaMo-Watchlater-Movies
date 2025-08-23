@@ -9,7 +9,14 @@ export const AuthProvider = ({ children }) => {
   const authStatus = async function () {
     try {
       const response = await fetch('/api/auth/me');
-      const data = await response.json();
+      const response = await response.json();
+
+      if(response.ok){
+        const userData = await response.json();
+        setUser(userData);
+      }else{
+        setUser(null)
+      }
 
     } catch (error) {
       console.log(`Error while fetching user data, Error : ${error}`)
@@ -18,4 +25,27 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   }
-}
+
+  useEffect(() => {
+    authStatus();
+  }, [] );
+
+  // These are the methods that a provider can provide. This is just for knowledge not for implementation
+  // const login = (userData) => {
+  //   setUser(userData);
+  // }
+  //
+  // const logout = () => {
+  //   //endpoint to clear the jwt
+  //   setUser(null);
+  // }
+  
+  const value = { user, loading };
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+};
+
+//Custom hook for easy access to the context
+export const useUser = () => {
+  return useContext(UserContext);
+};
