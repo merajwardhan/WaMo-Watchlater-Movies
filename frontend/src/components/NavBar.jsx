@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/NavBar.css';
-import { useUser } from '../contexts/UserContext.js';
+import { useUser } from '../contexts/UserContext.jsx';
 
 export default function NavBar(){
 
@@ -18,11 +18,11 @@ export default function NavBar(){
         <Link to='/saved' className='navLink'>Saved</Link>
         { loading ? (
           <span className='navLinkUser' >Loading!!!</span>
-        ) : ( user : 
+        ) : ( user ? 
             (
               <span className='navLinkUser' >Welcome , {user.name}</span>
             ) : (
-              <a href="/auth/google" className='navLinkUser'>Login with google</a>
+              <a href="http://localhost:3000/api/auth/google" className='navLinkUser'>Login with google</a>
             )
         ) }
       </div>
