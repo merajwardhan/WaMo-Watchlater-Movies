@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const authStatus = async function () {
     try {
       const response = await fetch('/api/auth/me');
-      const response = await response.json();
 
       if(response.ok){
         const userData = await response.json();
