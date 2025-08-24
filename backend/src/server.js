@@ -14,7 +14,7 @@ app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
 }), );  
 
-app.use('/api/auth/*', jwtAuth);
+// app.use('/api/auth/*', jwtAuth); //Closing this middleware routing function and directly routing from the routes itself
 
 app.get('/', (c) => {
   return c.text('Hello from HONO')
