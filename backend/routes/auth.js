@@ -1,6 +1,8 @@
 import { Hono } from 'hono';
 import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
 // import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
+import { User } from '../models/User.js';
+import { jwtAuth } from '../middlewares/auth.js';
 import jwt from 'jsonwebtoken';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -49,12 +51,16 @@ authRouter.get('/google/callback', async (c) => {
 
     // if(tokenResponse.refresh_token) session.set('refreshToken', tokenResponse.refresh_token); //store refresh token if you want to use it.
 
-    return c.cookie('jwt', jwtAuthToken , { //first set the cookie name, then provide the actual cookie then set options 
+    setCookie(c, 'jwt', jwtAuthToken , {
       httpOnly : true,
-      //secure : true,
-      path : '/', //cookie is available to all endpoint of our site
-      sameSite : 'Lax'
-    }).redirect('/api/movie/popular') //return to homepage after everything is completed
+      secure : false, //true for production (https)
+      sameSite : 'Lax',
+      path : '/', // makes the cookie available to all url paths
+      maxAge : 60 * 60 * 24 * 365 // 1 year
+    })
+
+    return c.redirect('/api/movie/popular');
+
   } catch (error) {
     console.error( `An error occured while connecting to Goolge auth : ${error}`);
     return c.json({ 
@@ -63,6 +69,15 @@ authRouter.get('/google/callback', async (c) => {
     }, 500);
   }
 }) 
+
+authRouter.get('/me', async (c) => {
+  try {
+    // const userIndo = await User.
+  } catch (error) {
+    console.log(`Error occured while fetching the user from DB\nError : ${error}`)  
+    return c.json({ msg : Error while fetching userData }, 401);
+  }
+})
 
 export default authRouter;
 
