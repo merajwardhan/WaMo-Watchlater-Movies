@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
+import { getCookie } from 'hono/cookie';
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const jwtAuth = async function (c, next) {
   try {
-    const token = c.req.cookie('jwt');
+    const token = getCookie(c, 'jwt');
     if(!token) return c.json({ msg : `No token provided`} , 401 );
 
     const payload = jwt.verify(token, JWT_SECRET);
