@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { setCookie } from 'hono/cookie';
 import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
 // import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 import { User } from '../models/User.js';
