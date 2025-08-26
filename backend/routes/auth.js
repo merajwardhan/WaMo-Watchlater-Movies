@@ -60,7 +60,6 @@ authRouter.get('/google/callback', async (c) => {
       maxAge : 60 * 60 * 24 * 365 // 1 year
     })
 
-    //TODO: check if this cookie is send or not? or just set to the c object
     return c.redirect('/api/movie/popular'); // This actually sets the location header
 
   } catch (error) {
