@@ -71,7 +71,7 @@ authRouter.get('/google/callback', async (c) => {
   }
 }) 
 
-authRouter.get('/me', async (c) => {
+authRouter.get('/me', jwtAuth , async (c) => {
   const googleId = c.get('googleId');
   try {
     const userInfo = await User.findOne({ googleId }, { name : 1 }); //Here { name : 1 } is called the projections, where you can decide which values to retrieve and which to not
