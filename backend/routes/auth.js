@@ -60,7 +60,8 @@ authRouter.get('/google/callback', async (c) => {
       maxAge : 60 * 60 * 24 * 365 // 1 year
     })
 
-    return c.redirect('/api/movie/popular');
+    //TODO: check if this cookie is send or not? or just set to the c object
+    return c.redirect('/api/movie/popular'); // This actually sets the location header
 
   } catch (error) {
     console.error( `An error occured while connecting to Goolge auth : ${error}`);
@@ -72,8 +73,15 @@ authRouter.get('/google/callback', async (c) => {
 }) 
 
 authRouter.get('/me', async (c) => {
+  const googleId = c.get('googleId');
   try {
-    // const userIndo = await User.
+    const userInfo = await User.findOne({ googleId }, { name : 1 }); //Here { name : 1 } is called the projections, where you can decide which values to retrieve and which to not
+    // { valueName : 1 , value2Name : 1 } here 1 means retrieve the value and zero means don't retrieve that value
+    
+    if(!userInfo){ return c.json({ msg : Could not retrieve user Information }, 401 )};
+
+    return c.json({ name : userInfo.name })
+
   } catch (error) {
     console.log(`Error occured while fetching the user from DB\nError : ${error}`)  
     return c.json({ msg : Error while fetching userData }, 401);
