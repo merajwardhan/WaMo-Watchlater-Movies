@@ -14,9 +14,9 @@ const authRouter = new Hono();
 authRouter.get('/google', (c) => {
   const googleAuthUrl = `https://accounts.google.com/oauth/2/auth?` +
   `client_id=${GOOGLE_CLIENT_ID}&` + 
-  `redirect_url=http://localhost:3000/api/auth/google/callback&` + 
+  `redirect_uri=http://localhost:3000/api/auth/google/callback&` + // url -> uri
   `response_type=code&` +
-  `scope=email profile&` + 
+  `scope=email%20profile&` + 
   `access_type=offline` //access type offline gives you refresh_token
 
   return c.redirect(googleAuthUrl);//when the user visits this endpoint the user is automatically redirected to the google auth website.
@@ -77,13 +77,13 @@ authRouter.get('/me', jwtAuth , async (c) => {
     const userInfo = await User.findOne({ googleId }, { name : 1 }); //Here { name : 1 } is called the projections, where you can decide which values to retrieve and which to not
     // { valueName : 1 , value2Name : 1 } here 1 means retrieve the value and zero means don't retrieve that value
     
-    if(!userInfo){ return c.json({ msg : Could not retrieve user Information }, 401 )};
+    if(!userInfo){ return c.json({ msg : "Could not retrieve user Information" }, 401 )};
 
     return c.json({ name : userInfo.name })
 
   } catch (error) {
     console.log(`Error occured while fetching the user from DB\nError : ${error}`)  
-    return c.json({ msg : Error while fetching userData }, 401);
+    return c.json({ msg : "Error while fetching userData" }, 401);
   }
 })
 
