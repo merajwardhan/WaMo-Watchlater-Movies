@@ -1,25 +1,41 @@
 import { Hono } from 'hono';
 import { setCookie } from 'hono/cookie';
 import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
-// import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 import { User } from '../models/User.js';
 import { jwtAuth } from '../middlewares/auth.js';
-import jwt from 'jsonwebtoken';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-auth20';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const JWT_SECRET = process.env.JWT_SECRET;
 const authRouter = new Hono();
 
-authRouter.get('/google', (c) => {
-  const googleAuthUrl = `https://accounts.google.com/oauth/2/auth?` +
-  `client_id=${GOOGLE_CLIENT_ID}&` + 
-  `redirect_uri=http://localhost:3000/api/auth/google/callback&` + // url -> uri
-  `response_type=code&` +
-  `scope=email%20profile&` + 
-  `access_type=offline` //access type offline gives you refresh_token
+passport.use(new GoogleStrategy({
+  clientID : GOOGLE_CLIENT_SECRET,
+  clientSecret : GOOGLE_CLIENT_SECRET,
+  callbackURL : 'http://localhost:3000/api/auth/google/callback'
+}, function(accessToken, refreshToken, profile, cb){
+    
+    const user = User.findOneAndUpdate( 
+      { googleid : profile.id},
+      { $set : {
+        googleId : profile.id,
+        name : profile.name,
+        email : profile.email,
+        picture : profile.picture
+      }},
+      {
+        upsert : true ,//create if doesn't exist
+        new : true, // Return the new document
+        setDefaultsOnInsert : true  // Add default fields
+      }
+    )    
 
-  return c.redirect(googleAuthUrl);//when the user visits this endpoint the user is automatically redirected to the google auth website.
+    const authToken = user.methods.authToken(); //Add jwt creation logic here and then return the token.
+    const user._doc.authToken = authToken;
+
+    return cd(null, user)
 })
 
 //router to handle google's callback i.e. the response that google will send
