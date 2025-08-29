@@ -47,29 +47,3 @@ export async function getUsersFavoriteMovies(googleId){
       }
 }
 
-export async function saveUserGetToken (userInfo){
-  try {
-    const user = User.findOneAndUpdate({
-      { googleid : userInfo.id},
-      { $set : {
-        googleId : userInfo.id,
-        name : userInfo.name,
-        email : userInfo.email,
-        picture : userInfo.picture
-      }},
-      {
-        upsert : true ,//create if doesn't exist
-        new : true, // Return the new document
-        setDefaultsOnInsert : true  // Add default fields
-      }
-    })    
-
-    const authToken = user.methods.authToken(); //Add jwt creation logic here and then return the token.
-
-    return authToken;
-
-  } catch (error) {
-    console.log(`Error while creating the Auth Token \nError : ${error}`);
-    throw error;
-  }
-}
