@@ -3,43 +3,28 @@ import { setCookie } from 'hono/cookie';
 import { exchangeCodeForTokens , getUserInfo } from '../utils/googleUtils.js'
 import { User } from '../models/User.js';
 import { jwtAuth } from '../middlewares/auth.js';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-auth20';
+import { OAuth2Client } from 'google-auth-library';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const CALLBACK_URL = 'http://localhost:3000/api/auth/google/callback';
 const JWT_SECRET = process.env.JWT_SECRET;
 const authRouter = new Hono();
 
-passport.use(new GoogleStrategy({
-  clientID : GOOGLE_CLIENT_SECRET,
-  clientSecret : GOOGLE_CLIENT_SECRET,
-  callbackURL : 'http://localhost:3000/api/auth/google/callback'
-}, function(accessToken, refreshToken, profile, cb){
-    
-    const user = User.findOneAndUpdate( 
-      { googleid : profile.id},
-      { $set : {
-        googleId : profile.id,
-        name : profile.name,
-        email : profile.email,
-        picture : profile.picture
-      }},
-      {
-        upsert : true ,//create if doesn't exist
-        new : true, // Return the new document
-        setDefaultsOnInsert : true  // Add default fields
-      }
-    )    
-    const authToken = user.methods.authToken(); //Add jwt creation logic here and then return the token.
-    // user._doc.authToken = authToken;
-    user.authToken = authToken;
+const oAuth2Client = new OAuth2Client( GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET , CALLBACK_URL );
 
-    return cd(null, user)
-})
+authRouter.get('/google' ,
+  const authURL = oAuth2Client.generateAuthUrl({ //This fucntion generated the url for user redirect
+    access_type : 'offline',
+    scope : [
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email'
+    ],
+    prompt : 'consent'
+  })
 
-authRouter.get('/google' , 
-  passport.authenticate('google', { scope : ['profile' , 'email']});
+  c.redirect(authURL);
+);
 
 //router to handle google's callback i.e. the response that google will send
 authRouter.get('/google/callback', 
