@@ -65,7 +65,7 @@ authRouter.get('/google/callback',
         { upsert : true , new : true , setDefaultsOnInsert : true }
       )
       
-      const jwtAuthToken = user.methods.authToken;
+      const jwtAuthToken = user.authToken();
       
       setCookie(c, 'jwt', jwtAuthToken , {
         httpOnly : true,
