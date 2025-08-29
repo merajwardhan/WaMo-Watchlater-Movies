@@ -24,13 +24,14 @@ export async function connectDB() {
   }
 }
 
-export async function createIndexes(){
-  try {
-    await mongoose.model('Users').init();
-    await mongoose.model('Movies').init();
-    console.log(`Successfully indexed the database`)
-  } catch (error) {
-    console.log(`Error while creating indexes on the DB \nError : ${error}`)
-    throw error;
-  }
-}
+// If you create indexes in the future then this function is useful
+// export async function createIndexes(){
+//   try {
+//     await mongoose.model('Users').init();
+//     await mongoose.model('Movies').init();
+//     console.log(`Successfully indexed the database`)
+//   } catch (error) {
+//     console.log(`Error while creating indexes on the DB \nError : ${error}`)
+//     throw error;
+//   }
+// }

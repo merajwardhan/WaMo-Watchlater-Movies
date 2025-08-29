@@ -6,9 +6,8 @@ import authRouter from '../routes/auth.js';
 import { cors } from 'hono/cors';
 import { jwtAuth } from '../middlewares/auth.js'
 const app = new Hono();
-// import { connectDB , createIndexes } from '../config/database.js';
-// await connectDB();
-// await createIndexes(); 
+import { connectDB } from '../config/database.js';
+await connectDB();
 
 app.use('/api/*', cors({
   origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
