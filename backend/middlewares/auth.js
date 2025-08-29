@@ -12,10 +12,10 @@ export const jwtAuth = async function (c, next) {
 
     await next();
 
-    } catch (error) {
-      console.log(`Error while verifying the jwt token\nError : ${error}`) 
-      return c.json({ msg : `Error occured, could not verify the JWT`} , 401 )
-    }  
+  } catch (error) {
+    console.log(`Error while verifying the jwt token\nError : ${error}`) 
+    return c.json({ msg : `Error occured, could not verify the JWT`} , 401 )
+  }  
 }
 
 // THIS IS THE PREVIOUS SESSION MANAGEMENT CODE WHICH IS TO BE REPLACED WITH JWT AUTH FOR SERVERLESS SUPPORT
