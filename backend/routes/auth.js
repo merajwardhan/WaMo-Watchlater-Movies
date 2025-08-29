@@ -32,7 +32,8 @@ passport.use(new GoogleStrategy({
       }
     )    
     const authToken = user.methods.authToken(); //Add jwt creation logic here and then return the token.
-    const user._doc.authToken = authToken;
+    // user._doc.authToken = authToken;
+    user.authToken = authToken;
 
     return cd(null, user)
 })
