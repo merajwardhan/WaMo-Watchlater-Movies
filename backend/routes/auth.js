@@ -31,66 +31,46 @@ passport.use(new GoogleStrategy({
         setDefaultsOnInsert : true  // Add default fields
       }
     )    
-
     const authToken = user.methods.authToken(); //Add jwt creation logic here and then return the token.
     const user._doc.authToken = authToken;
 
     return cd(null, user)
 })
 
+authRouter.get('/google' , 
+  passport.authenticate('google', { scope : ['profile' , 'email']});
+
 //router to handle google's callback i.e. the response that google will send
-authRouter.get('/google/callback', async (c) => {
-  const code = c.req.query('code');
-  //code is just a long random string that we recieve back from google that we can exchange for user info (only within 10 mins or so)
+authRouter.get('/google/callback', 
+  passport.authenticate('google' , { failureRedirect : '/api/movie/popular'}) ,
+  async (c) => {
+    try {
 
-  if(!code) return c.json({ msg : `No authentication code recieved!`}, 400);
+      const jwtAuthToken = c.user.authToken;
+      
+      setCookie(c, 'jwt', jwtAuthToken , {
+        httpOnly : true,
+        secure : false, //true for production (https)
+        sameSite : 'Lax',
+        path : '/', // makes the cookie available to all url paths
+        maxAge : 60 * 60 * 24 * 365 // 1 year
+      })
 
-  try {
-    //function that sends token for code
-    const tokenResponse = await exchangeCodeForTokens(code)
+      return c.redirect('/api/movie/popular'); // This actually sets the location header
 
-    //function that returns user information
-    const userInfo = await getUserInfo(tokenResponse.access_token)
-
-    const jwtAuthToken = await saveUserGetToken(userInfo); // Create this function that takes user info and saves to mongo and returns the jwt token
-
-    //store info in session
-    // const session = await getSession(c);
-    // session.set('user', {
-    //   id: userInfo.id,
-    //   email: userInfo.email,
-    //   name: userInfo.name,
-    //   picture: userInfo.picture,
-    //   provider: 'google'
-    // })
-
-    // session.set('accessToken', tokenResponse.access_token)
-
-    // if(tokenResponse.refresh_token) session.set('refreshToken', tokenResponse.refresh_token); //store refresh token if you want to use it.
-
-    setCookie(c, 'jwt', jwtAuthToken , {
-      httpOnly : true,
-      secure : false, //true for production (https)
-      sameSite : 'Lax',
-      path : '/', // makes the cookie available to all url paths
-      maxAge : 60 * 60 * 24 * 365 // 1 year
-    })
-
-    return c.redirect('/api/movie/popular'); // This actually sets the location header
-
-  } catch (error) {
-    console.error( `An error occured while connecting to Goolge auth : ${error}`);
-    return c.json({ 
-      msg : `Authentiction failed!`,
-      error,
-    }, 500);
-  }
+    } catch (error) {
+      console.error( `An error occured while connecting to Goolge auth : ${error}`);
+      return c.json({ 
+        msg : `Authentiction failed!`,
+        error,
+      }, 500);
+    }
 }) 
 
 authRouter.get('/me', jwtAuth , async (c) => {
   const googleId = c.get('googleId');
   try {
-    const userInfo = await User.findOne({ googleId }, { name : 1 }); //Here { name : 1 } is called the projections, where you can decide which values to retrieve and which to not
+    const userInfo = await User.findOne({ googleId }, { name : 1 , _id : 0 }); //Here { name : 1 } is called the projections, where you can decide which values to retrieve and which to not
     // { valueName : 1 , value2Name : 1 } here 1 means retrieve the value and zero means don't retrieve that value
     
     if(!userInfo){ return c.json({ msg : "Could not retrieve user Information" }, 401 )};
