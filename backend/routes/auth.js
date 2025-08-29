@@ -13,7 +13,8 @@ const authRouter = new Hono();
 
 const oAuth2Client = new OAuth2Client( GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET , CALLBACK_URL );
 
-authRouter.get('/google' ,
+authRouter.get('/google' , (c) => {
+
   const authURL = oAuth2Client.generateAuthUrl({ //This fucntion generated the url for user redirect
     access_type : 'offline',
     scope : [
@@ -23,16 +24,48 @@ authRouter.get('/google' ,
     prompt : 'consent'
   })
 
-  c.redirect(authURL);
-);
+  return c.redirect(authURL);
+});
+
 
 //router to handle google's callback i.e. the response that google will send
 authRouter.get('/google/callback', 
-  passport.authenticate('google' , { failureRedirect : '/api/movie/popular'}) ,
   async (c) => {
     try {
+      const { code } = c.req.query();
 
-      const jwtAuthToken = c.user.authToken;
+      if(!code){
+        return c.json({ msg : `No code found or provided by google`}, 401);
+      }
+
+      const { tokens } = await oAuth2Client.getToken(code);
+      const idToken = tokens.id_token;
+
+      if(!idToken){
+        return c.json({ msg : `No ID Token found`}, 400);
+      }
+
+      const ticket = await oAuth2Client.verifyIdToken({ //This is like , jwt.verify()
+        idToken, 
+        audience: GOOGLE_CLIENT_ID
+      });
+
+      const payload =  ticket.getPayload();
+
+      const user = await User.findOneAndUpdate(
+        { googleId : payload.sub },
+        {
+          $set : {
+            google : payload.sub,
+            name : payload.name,
+            email: payload.email,
+            picture: payload.picture
+          },
+        },
+        { upsert : true , new : true , setDefaultsOnInsert : true }
+      )
+      
+      const jwtAuthToken = user.methods.authToken;
       
       setCookie(c, 'jwt', jwtAuthToken , {
         httpOnly : true,
