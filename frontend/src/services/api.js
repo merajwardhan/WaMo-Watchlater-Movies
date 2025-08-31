@@ -27,3 +27,21 @@ export const searchMovies = async (query, page) => {
     return [];
   }
 }
+
+export const searchFavoriteMovies = async () => {
+  try {
+    
+  } catch (error) {
+    console.log(`Network Or Api error in (searchFavoriteMovies) : ${error}`)
+    return [];
+  }
+}
+
+export const searchSavedMovies = async () => {
+  try {
+    
+  } catch (error) {
+    console.log(`Network Or Api error in (searchSavedMovies) : ${error}`)
+    return [];
+  }
+}
