@@ -94,7 +94,7 @@ authRouter.get('/me', jwtAuth , async (c) => {
     
     if(!userInfo){ return c.json({ msg : "Could not retrieve user Information" }, 401 )};
 
-    return c.json({ name : userInfo.name })
+    return c.json({ name : userInfo.name }, 200);
 
   } catch (error) {
     console.log(`Error occured while fetching the user from DB\nError : ${error}`)  
