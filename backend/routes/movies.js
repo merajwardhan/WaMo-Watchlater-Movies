@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 // import dotenv from 'dotenv';
 // dotenv.config(); //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 import { jwtAuth } from '../middlewares/auth.js'; 
+import { getUsersFavoriteMovies, getUsersSavedMovies } from '../utils/databaseUtils.js';
 
 // export const movieRouter = new Hono().basePath('/movie'); This results in the path being : /api/movie/movie/popular
 const movieRouter = new Hono();
@@ -76,12 +77,16 @@ movieRouter.get('/search', async (c) => {
 })
 
 movieRouter.get('favorites', jwtAuth , async (c) => {
- try {
-   const googleId = c.get('googleId');
- } catch (error) {
-   console.log(`Error while fetching the favorites movies in /favorites\nError : ${error}`)
-   return c.json({ msg : `something went wrong while fetching favorites`}, 401);
- }
+  try {
+    const googleId = c.get('googleId');
+    const favMovies = await getUsersFavoriteMovies(googleId);
+
+    return c.json({ results : favMovies }, 200);
+
+  } catch (error) {
+    console.log(`Error while fetching the favorites movies in /favorites\nError : ${error}`)
+    return c.json({ msg : `something went wrong while fetching favorites`}, 401);
+  }
 })
 
 export default movieRouter; //made this default export to handle module not found error (tl,dr this did not resolve the error but stil kept the default export)
