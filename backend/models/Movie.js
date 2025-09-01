@@ -4,7 +4,7 @@ const { Schema } from mongoose;
 const movieSchema = new Schema({
   title : String,
   imdbID : { type : Number , unique : true },
-  poster : String ,
+  poster_path : String ,
   release_date : String,
   usersFavorite : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Users'}],
   usersSaved : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Users'}] //if these two array are empty make a clean up function that deletes the movie from the data base.
