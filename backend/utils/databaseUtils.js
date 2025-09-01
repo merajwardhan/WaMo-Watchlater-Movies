@@ -13,8 +13,14 @@ export async function getUsersFavoriteMovies(googleId){
             foreighField : '_id',
             as : 'moviesDetails'
           }
+        },
+        {
+          $project : {
+            _id : 0, // By default the _id field is kept, so excludes that
+            moviesDetails : 1 //Juset Includes the moviesDetails in result
+          }
         }
-      }).toArray(); // Returns the movies in from of array in the 'moviesDetails' field     
+      }); 
 
       return foundMovies; //This will return the whole user document with the new field which has the movies array
 
@@ -36,8 +42,14 @@ export async function getUsersFavoriteMovies(googleId){
               foreighField : '_id',
               as : 'moviesDetails'
             }
+          },
+          {
+            $project : {
+              _id : 0, 
+              moviesDetails : 1
+            }
           }
-        }).toArray(); // Returns the movies in from of array in the 'favoriteMoviesDetails' field     
+        }); 
 
         return foundMovies; //This will return the whole user document with the new field which has the movies array
 
