@@ -70,7 +70,7 @@
 }
 
 /* Remove position: absolute from both buttons and simplify: */
-.favoriteBtn, .saveBtn {
+.favoriteBtn, .saveBtn , .crossBtn{
   color: white;
   font-size: 1.5rem;
   padding: 0.5rem;
@@ -86,7 +86,7 @@
   cursor: pointer;
 }
 
-.favoriteBtn:hover, .saveBtn:hover {
+.favoriteBtn:hover, .saveBtn:hover ,.crossBtn:hover{
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -190,6 +190,13 @@
   }
 
   .saveBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+
+
+  .crossBtn {
     width: 32px;
     height: 32px;
     font-size: 1.2rem;
