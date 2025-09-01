@@ -1,5 +1,5 @@
 import '../css/Favorites.css'
-import MovieCard from '../components/MovieCard.jsx';
+import SavedMovieCard from '../components/SavedMovieCard.jsx';
 import { searchFavoriteMovies } from '../services/api.js';
 import { useState , useEffect } from 'react';
 
@@ -15,6 +15,9 @@ export default function Favorites(){
     try {
       
       const favMovies = await searchFavoriteMovies();
+
+      if(favMovies.length > 0) setMovies(favMovies);
+      else setError(`Unable to find your favorite movies,\nPlease set your favorite movies!`);
       
     } catch (error) {
       console.log(`Error while fetching the favorite movies , Error = ${error}`)
@@ -26,12 +29,13 @@ export default function Favorites(){
   }, [] )
 
   return <>
-    
+    { movies.length > 1 ? 
+    <div className='moviesGrid'>
+      {movies.map((mov) => (<SavedMovieCard {..mov} key={mov.imdbID}/>))}
+    </div>} : 
+    <div className="favorites">
+      <h2>No Favorite movies yet!</h2>
+      <p>When you favorite the movies they will be added here!</p>
+    </div>
   </>
 }
-
-
-    {/* <div className = 'favorites'> */}
-    {/*   <h2>No Favorite movies yet!</h2> */}
-    {/*   <p>When you favorite the movies they will be added here!</p> */}
-    {/* </div> */}
