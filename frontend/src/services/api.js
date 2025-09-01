@@ -33,7 +33,7 @@ export const searchFavoriteMovies = async () => {
     const response = await fetch(`http://localhost:3000/api/movie/favorites`);
     const data = await response.json();
 
-    if(data.details.results.lenght > 0) return data.details;
+    if(data.results.lenght > 0) return data.results;
     else return [];
   } catch (error) {
     console.log(`Network Or Api error in (searchFavoriteMovies) : ${error}`)
@@ -43,7 +43,11 @@ export const searchFavoriteMovies = async () => {
 
 export const searchSavedMovies = async () => {
   try {
-    
+    const response = await fetch('http://localhost:3000/api/movie/saved');
+    const data = await response.json();
+
+    if(data.results.lenght > 0) return data.results;
+    else return [];
   } catch (error) {
     console.log(`Network Or Api error in (searchSavedMovies) : ${error}`)
     return [];
