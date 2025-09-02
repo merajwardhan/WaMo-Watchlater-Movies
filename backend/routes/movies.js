@@ -76,7 +76,7 @@ movieRouter.get('/search', async (c) => {
     }
 })
 
-movieRouter.get('favorites', jwtAuth , async (c) => {
+movieRouter.get('/favorites', jwtAuth , async (c) => {
   try {
     const googleId = c.get('googleId');
     const favMovies = await getUsersFavoriteMovies(googleId);
@@ -86,6 +86,49 @@ movieRouter.get('favorites', jwtAuth , async (c) => {
   } catch (error) {
     console.log(`Error while fetching the favorites movies in /favorites\nError : ${error}`)
     return c.json({ msg : `something went wrong while fetching favorites`}, 401);
+  }
+})
+
+movieRouter.post('/add/favorites', jwtAuth , async (c) => {
+  try {
+    const body = await c.req.json();
+    const googleId = c.get('googleId');
+    const user = await User.findOne({ googleId });
+
+    if(!user){
+      console.log(`User not found`);
+      return c.json({ msg : `User not found`}, 404);
+    }
+
+    const movie = await Movie.findOneAndUpdate( 
+      { imdbID : body.imdbID }, // The query object
+      { // This is the update object
+        $setOnInsert : { //Only set this fields when upseting (creating the movie document)
+          title : body.title,
+          imdbID : body.imdbID,
+          poster_path : body.poster_path,
+          release_date : body.release_date,
+        },
+        $addToSet : {
+          userFavorites : user._id //Adds only if not present
+        }
+      },
+      { //This is the options object
+        upsert : true ,
+        new : true, // This option should return us the new document
+        runValidators : true //forces mongoose to validate the schema before making the updates
+       }
+    ) 
+
+    await User.findByIdAndUpdate( user._id , {
+      $addToSet : { favoriteMovies : movie._id } //Addes only not present
+    })
+
+    return c.json({ msg : `Movie saved to favorites`}, 200);
+
+  } catch (error) {
+    console.log(`Error while adding movie to favorites\nError : ${error}`);
+    return c.json({ msg : `Error while adding movie to favorites`}, 400);
   }
 })
 
