@@ -4,12 +4,19 @@ const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
 export default function MovieCard(props){
 
-  function onLike(){
-    alert('Clicked Like!!!');
+  async function onLike(){
+    alert('Added to favorites!!!');
+    try {
+      const response = await saveToFavorites(props);
+      //TODO: check if the response is ok and alert that movie is saved, if already saved then alert about that, else alert that couldn't save
+    } catch (error) {
+      console.log(`Error occured while adding movie to favorites!\nError : ${error}`)
+      alert(`Could not add movie to favorites because of a error!`);
+    }
   }
 
   function onSave(){
-    alert('Clicked Save!!!');
+    alert('Added to saved!!!');
   }
 
   
