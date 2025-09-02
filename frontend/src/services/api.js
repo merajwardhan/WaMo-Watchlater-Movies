@@ -35,24 +35,20 @@ export const saveToFavorites = async (props) => {
       poster_path : props.poster_path,
       release_date : props.release_date,
       imdbID : props.imdbID
-      //TODO: Check logic to saving movies, do we have to make 2 database calls? if so then what would be better
-      //construct the fetch request accordingly
     }
     const response = await fetch('http://localhost:3000/api/movie/add/favorites', {
       method : 'POST',
-      {
       headers : {
         'Content-Type' : 'application/json'
       },
       body : JSON.Stringify(dataToSend)
-    }
     });
      
-    if(response.ok) return 1; // is response okay when it is 200?
-    else return 0;
+    if(response.ok) return { success : true , status : response.status }; // is response okay when it is 200?
+    else return { success : false , status : response.status , error : await response.text()};
   } catch (error) {
     console.log(`Error in saving function FE\nError : ${error}`)
-    return 0;
+    return { success : false , error : error.message };
   }
 }
 
