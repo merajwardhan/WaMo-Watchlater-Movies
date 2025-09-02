@@ -8,8 +8,8 @@ const UserSchema = new Schema ({
   name : String,
   gmail : { type : String , unique : true },
   picture : String,
-  favoriteMovies : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Movies'}],
-  savedMovies : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Movies'}]
+  favoriteMovies : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Movie'}],
+  savedMovies : [{ type : mongoose.Schema.Types.ObjectId , ref : 'Movie'}]
 });
 //Create 2 collections for saved movies and favorite movies in the database
 
@@ -20,6 +20,6 @@ UserSchema.methods.authToken = function(){
   return jwt.sign({ googleId : this.googleId }, JWT_SECRET) // This is synchoronous because it does not have a CB function
 }
 
-export const User = mongoose.model('Users', UserSchema);
+export const User = mongoose.model('User', UserSchema);
 
 // add a clean up function in the backend that check for movies without any users and delete those movies.
