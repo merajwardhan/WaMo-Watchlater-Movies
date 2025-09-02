@@ -8,7 +8,15 @@ export default function MovieCard(props){
     alert('Added to favorites!!!');
     try {
       const response = await saveToFavorites(props);
-      //TODO: check if the response is ok and alert that movie is saved, if already saved then alert about that, else alert that couldn't save
+
+      if(response.success) {
+        alert(`Movie saved to favorites!`);
+      }else{
+        if(response.status === 404) alert(`User not found please login again!`);
+        else if(response.status === 400) alert(`Could not add to favorites, Something went wrong!`);
+        else alert(`Something went wrong!\nError = ${response.error}`);
+      }
+
     } catch (error) {
       console.log(`Error occured while adding movie to favorites!\nError : ${error}`)
       alert(`Could not add movie to favorites because of a error!`);
