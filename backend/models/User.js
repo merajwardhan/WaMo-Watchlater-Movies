@@ -17,7 +17,7 @@ const UserSchema = new Schema ({
 // The indexing is commented out because setting the value to be unique automatically creates a index on the value.
 
 UserSchema.methods.authToken = function(){
-  return jwt.sign(JWT_SECRET, { googleId : this.googleId }) // This is synchoronous because it does not have a CB function
+  return jwt.sign({ googleId : this.googleId }, JWT_SECRET) // This is synchoronous because it does not have a CB function
 }
 
 export const User = mongoose.model('Users', UserSchema);
