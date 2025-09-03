@@ -41,7 +41,7 @@ export const saveToFavorites = async (props) => {
       headers : {
         'Content-Type' : 'application/json'
       },
-      body : JSON.Stringify(dataToSend)
+      body : JSON.stringify(dataToSend)
     });
      
     if(response.ok) return { success : true , status : response.status }; // is response okay when it is 200?
