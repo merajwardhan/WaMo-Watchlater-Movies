@@ -1,30 +1,30 @@
 import '../css/MovieCard.css'
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
 export default function MovieCard(props){
 
   async function onLike(){
-    alert('Added to favorites!!!');
     try {
       const response = await saveToFavorites(props);
 
       if(response.success) {
-        alert(`Movie saved to favorites!`);
+        toast.success('Movie saved to favorites!')
       }else{
-        if(response.status === 404) alert(`User not found please login again!`);
-        else if(response.status === 400) alert(`Could not add to favorites, Something went wrong!`);
-        else alert(`Something went wrong!\nError = ${response.error}`);
+        if(response.status === 404)  toast.warn(`User not found please login again!`);
+        else if(response.status === 400) toast.warn(`Could not add to favorites, Something went wrong!`);
+        else toast.error(`Something went wrong!\nError = ${response.error}`);
       }
 
     } catch (error) {
       console.log(`Error occured while adding movie to favorites!\nError : ${error}`)
-      alert(`Could not add movie to favorites because of a error!`);
+      toast.error(`Could not add movie to favorites because of a error!`)
     }
   }
 
   function onSave(){
-    alert('Added to saved!!!');
+    toast.success('Added to saved!!!');
   }
 
   
