@@ -50,14 +50,18 @@ export default function Favorites(){
     </>
   }
 
-  return <>
-    { movies.length > 0 ? 
-    <div className='moviesGrid'>
-      {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.imdbID}/>))}
-    </div>} : 
-    <div className="favorites">
-      <h2>No Favorite movies yet!</h2>
-      <p>When you favorite the movies they will be added here!</p>
-    </div>
+  return (
+  <>
+    { movies.length > 0 ? (
+      <div className='moviesGrid'>
+        {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.imdbID}/>))}
+      </div>
+    ) : (
+      <div className='favorites'>
+        <h2>No Favorite movies yet!</h2>
+        <p>When you favorite the movies they will be added here!</p>
+      </div>
+    )}
   </>
+)
 }
