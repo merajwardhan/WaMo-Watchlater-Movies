@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose , { Schema } from 'mongoose';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET;
-const { Schema } = mongoose; // Destructure the Schema from the mongoose object;
 
 const UserSchema = new Schema ({
   googleId : { type : String , unique : true },
