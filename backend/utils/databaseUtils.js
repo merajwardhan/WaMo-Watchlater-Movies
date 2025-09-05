@@ -4,13 +4,13 @@ import { Movie } from '../models/Movie.js';
 
 export async function getUsersFavoriteMovies(googleId){
   try {
-    const foundMovies = await User.aggregate({
+    const foundMovies = await User.aggregate([
         { $match : { googleId }},
         {
           $lookup : {
             from : 'Movies',
             localField : 'favoriteMovies',
-            foreighField : '_id',
+            foreignField : '_id',
             as : 'moviesDetails'
           }
         },
@@ -20,7 +20,7 @@ export async function getUsersFavoriteMovies(googleId){
             moviesDetails : 1 //Juset Includes the moviesDetails in result
           }
         }
-      }); 
+    ]); 
 
       return foundMovies; //This will return the whole user document with the new field which has the movies array
 
@@ -33,13 +33,13 @@ export async function getUsersFavoriteMovies(googleId){
   export async function getUsersSavedMovies(googleId){
 
     try {
-      const foundMovies = await User.aggregate({
+      const foundMovies = await User.aggregate([
           { $match : { googleId }},
           {
             $lookup : {
               from : 'Movies',
               localField : 'savedMovies',
-              foreighField : '_id',
+              foreignField : '_id',
               as : 'moviesDetails'
             }
           },
@@ -49,7 +49,7 @@ export async function getUsersFavoriteMovies(googleId){
               moviesDetails : 1
             }
           }
-        }); 
+        ]); 
 
         return foundMovies; //This will return the whole user document with the new field which has the movies array
 
