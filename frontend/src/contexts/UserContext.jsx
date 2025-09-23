@@ -8,7 +8,9 @@ export const AuthProvider = ({ children }) => {
 
   const authStatus = async function () {
     try {
-      const response = await fetch('http://localhost:3000/api/auth/me');
+      const response = await fetch('http://localhost:3000/api/auth/me', {
+        creadentials : "include", //The frontend doesn't send sensitive info like cookies without us explicitely telling it to do so
+      });
 
       if(response.ok){
         const userData = await response.json();
