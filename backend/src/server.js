@@ -14,6 +14,7 @@ app.use('/api/*', cors({
   allowMethos : ['GET', 'POST', 'OPTIONS'],
   allowHeaders : [`Content-Type`],
   credentials : True,
+  // maxAge : 600, //If this option is set then this tells the browser to cache the info regarding complex requests for the next 10 minutes (600 seconds)
 }), );  
 
 // app.use('/api/auth/*', jwtAuth); //Closing this middleware routing function and directly routing from the routes itself
