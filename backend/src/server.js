@@ -10,7 +10,10 @@ import { connectDB } from '../config/database.js';
 await connectDB();
 
 app.use('/api/*', cors({
-  origin: (origin) => origin === 'http://localhost:5173' ? origin : '*'
+  origin : "http://localhost:5173/",
+  allowMethos : ['GET', 'POST', 'OPTIONS'],
+  allowHeaders : [`Content-Type`],
+  credentials : True,
 }), );  
 
 // app.use('/api/auth/*', jwtAuth); //Closing this middleware routing function and directly routing from the routes itself
