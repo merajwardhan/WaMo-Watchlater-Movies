@@ -10,10 +10,10 @@ import { connectDB } from '../config/database.js';
 await connectDB();
 
 app.use('/api/*', cors({
-  origin : "http://localhost:5173/",
-  allowMethos : ['GET', 'POST', 'OPTIONS'],
+  origin : "http://localhost:5173",
+  allowMethods : ['GET', 'POST', 'OPTIONS'],
   allowHeaders : [`Content-Type`],
-  credentials : True,
+  credentials : true,
   // maxAge : 600, //If this option is set then this tells the browser to cache the info regarding complex requests for the next 10 minutes (600 seconds)
 }), );  
 
