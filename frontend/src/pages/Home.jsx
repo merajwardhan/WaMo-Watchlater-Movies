@@ -6,6 +6,7 @@ import { getPopularMovies , searchMovies } from "../services/api";
 export default function Home(){
 
   const [ searchQuery , setSearchQuery ] = useState("");
+  const [ activeQuery , setActiveQuery ] = useState("");
   const [ movies , setMovies ] = useState([]);
   const [ loading , setLoading ] = useState(true);
   const [ error , setError ] = useState(null);
@@ -13,15 +14,23 @@ export default function Home(){
   const [ totalPages , setTotalPages ] = useState(0);
 
   useEffect( () => {
+
     const fetchMovies = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const fetchedMovies = await getPopularMovies(); 
+        let fetchedMovies;
+
+        if(activeQuery){
+           fetchedMovies = await searchMovies(searchQuery, page);
+        }else{
+           fetchedMovies = await getPopularMovies(page); 
+        }
 
         if(fetchedMovies.results.length > 0) {
           setMovies(fetchedMovies.results);
+          if(fetchedMovies.total_pages) setTotalPages(fetchedMovies.total_pages)
         }else{
           setMovies([{
             Title : 'Failed to fetch Movies',
@@ -50,97 +59,15 @@ export default function Home(){
     
     fetchMovies();  
 
-  }, [] )
+  }, [ activeQuery , page ] )
 
   const handleSearch = async (event) => {
     event.preventDefault();//This prevents the default behaviour (clearing the input box)
 
-    const query = searchQuery.trim();
+    setActiveQuery(searchQuery.trim());
     setPage(1); //Change page to 1 for a new search
 
-    if(!query) {
-      setError(`Error while conducting the search, Please check the input and try again!`)
-      searchMovies([]);
-      return
-    }
-
-    async function fetchMovies(){
-      try {
-          const fetchedMovies = await searchMovies(query, page);  
-
-            setLoading(true);
-            setError(null);
-          
-            if(fetchedMovies.results.length > 0) {
-              setMovies(fetchedMovies.results);
-              if(fetchedMovies.total_pages) setTotalPages(fetchedMovies.total_pages)
-            }else{
-              setMovies([{
-                Title : 'Failed to fetch Movies',
-                Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
-                Year : 'Sorry Dude, No info!'
-              },{
-                Title : 'Failed to fetch Movies',
-                Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
-                Year : 'Sorry Dude, No info!'
-              },{
-                Title : 'Failed to fetch Movies',
-                Poster : 'https://w0.peakpx.com/wallpaper/27/386/HD-wallpaper-naruto-anime-error-skyline.jpg',
-                Year : 'Sorry Dude, No info!'
-              }]);
-            }
-          
-        } catch (error) {
-          console.log(`Error occurred while searching for the movie : ${error}`);
-          setError(`Failed to load Movies, Please try again later..`)
-          setMovies([])
-        }finally{
-          setLoading(false);
-        }
-      }
-    
-    fetchMovies();
   }
-
-  useEffect( () => {
-    async function pageChange() {
-      try {
-        const fetchedMovies = await searchMovies(searchQuery, page);  
-
-        setLoading(true);
-        setError(null);
-      
-        if(fetchedMovies.results.length > 0) {
-          setMovies(fetchedMovies.results);
-          if(fetchedMovies.total_pages) setTotalPages(fetchedMovies.total_pages)
-        }else{
-          setMovies([{
-            Title : 'Failed to fetch Movies',
-            Poster : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
-            Year : 'Sorry Dude, No info!'
-          },{
-            Title : 'Failed to fetch Movies',
-            Poster : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
-            Year : 'Sorry Dude, No info!'
-          },{
-            Title : 'Failed to fetch Movies',
-            Poster : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
-            Year : 'Sorry Dude, No info!'
-          }]);
-        } 
-              
-      } catch (error) {
-        console.log(`Error occurred while searching for the movie : ${error}`);
-        setError(`Failed to load Movies, Please try again later..`)
-        setMovies([])
-      }finally{
-        setLoading(false);
-      }
-    }
-
-    if(page > 1) pageChange()
-
-  }, [page])
 
   const goToPrevious = () => {
     if(page > 1) setPage(page - 1);
