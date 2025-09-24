@@ -11,8 +11,9 @@ const BASE_URL = process.env.BASE_URL_TMBD;
 const API_KEY = process.env.API_KEY_TMDB;
 
 movieRouter.get('/popular', async (c) => {
+  const page = c.req.query('page');
   try {
-      const response = await fetch(`${BASE_URL}/movie/popular?language=en-US&page=1`, {
+      const response = await fetch(`${BASE_URL}/movie/popular?language=en-US&page=${page}`, {
         method : 'GET',
         headers : {
           'Content-Type' : 'application/json',
