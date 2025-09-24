@@ -2,9 +2,9 @@
 // dotenv.config();
 // need for backend not frontend
 
-export const getPopularMovies = async () => {
+export const getPopularMovies = async (page) => {
   try {
-    const response = await fetch('http://localhost:3000/api/movie/popular');
+    const response = await fetch(`http://localhost:3000/api/movie/popular?page=${page}`);
     const data = await response.json();
     
     if(data.details.results.length > 0) return data.details;
