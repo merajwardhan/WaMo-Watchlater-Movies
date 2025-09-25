@@ -2,6 +2,7 @@ import MovieCard from "../components/MovieCard";
 import { useState , useEffect } from 'react';
 import '../css/Home.css';
 import { getPopularMovies , searchMovies } from "../services/api";
+import { ToastContainer, Bounce } from 'react-toastify';
 
 export default function Home(){
 
@@ -108,6 +109,20 @@ export default function Home(){
       />
       <button type='submit' className='searchButton'>Search</button>
     </form>
+
+    <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+    />
 
     <div className = "moviesGrid">
       {movies.map((mov) => (<MovieCard {...mov} key={mov.id}/>))} 
