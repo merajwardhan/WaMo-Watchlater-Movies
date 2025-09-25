@@ -17,12 +17,12 @@ export async function getUsersFavoriteMovies(googleId){
         {
           $project : {
             _id : 0, // By default the _id field is kept, so excludes that
-            moviesDetails : 1 //Juset Includes the moviesDetails in result
+            moviesDetails : 1 //Just include the moviesDetails in the result
           }
         }
     ]); 
 
-      return foundMovies; //This will return the whole user document with the new field which has the movies array
+      return foundMovies.length > 0 ? foundMovies[0].moviesDetails : []; //This will return the whole user document with the new field which has the movies array
 
     } catch (error) {
       console.log(`Error while retrieving favorite movies!\nError : ${error}`)

@@ -104,7 +104,7 @@ movieRouter.post('/add/favorites', jwtAuth , async (c) => {
     const movie = await Movie.findOneAndUpdate( 
       { imdbID : body.imdbID }, // The query object
       { // This is the update object
-        $setOnInsert : { //Only set this fields when upseting (creating the movie document)
+        $setOnInsert : { //Only set this fields when upserting (creating the movie document)
           title : body.title,
           imdbID : body.imdbID,
           poster_path : body.poster_path,
