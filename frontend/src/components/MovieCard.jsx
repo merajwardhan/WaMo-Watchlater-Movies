@@ -1,6 +1,7 @@
 import '../css/MovieCard.css'
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { saveToFavorites } from '../services/api.js'
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
 export default function MovieCard(props){
