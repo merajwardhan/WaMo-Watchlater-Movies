@@ -54,7 +54,9 @@ export const saveToFavorites = async (props) => {
 
 export const searchFavoriteMovies = async () => {
   try {
-    const response = await fetch(`http://localhost:3000/api/movie/favorites`);
+    const response = await fetch(`http://localhost:3000/api/movie/favorites`, {
+      credentials : 'include',
+    });
     const data = await response.json();
 
     if(data.results.lenght > 0) return data.results;
