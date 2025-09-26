@@ -1,6 +1,6 @@
 import '../css/MovieCard.css'
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast , Bounce } from 'react-toastify';
 import { saveToFavorites } from '../services/api.js'
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
@@ -11,7 +11,17 @@ export default function MovieCard(props){
       const response = await saveToFavorites(props);
 
       if(response.success) {
-        toast.success('Movie saved to favorites!')
+          toast('Movie saved to favorites!',{   
+          position:"top-right",
+          autoClose: 5000,
+          hideProgressBar: false ,
+          closeOnClick: false ,
+          draggable: true,
+          pauseOnHover : true,
+          progress: undefined,
+          theme:"dark",
+          transition: Bounce,
+      });
       }else{
         if(response.status === 404)  toast.warn(`User not found please login again!`);
         else if(response.status === 400) toast.warn(`Could not add to favorites, Something went wrong!`);
@@ -25,7 +35,17 @@ export default function MovieCard(props){
   }
 
   function onSave(){
-    toast.success('Added to saved!!!');
+    toast('✔️ Added to saved!!!',{   
+        position:"top-right",
+        autoClose: 5000,
+        hideProgressBar: false ,
+        closeOnClick: false ,
+        draggable: true,
+        pauseOnHover : true,
+        progress: undefined,
+        theme:"dark",
+        transition: Bounce,
+    });
   }
 
   
