@@ -4,6 +4,8 @@ import { Hono } from 'hono';
 // dotenv.config(); //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
 import { jwtAuth } from '../middlewares/auth.js'; 
 import { getUsersFavoriteMovies, getUsersSavedMovies } from '../utils/databaseUtils.js';
+import { Movie } from '../models/Movie.js';
+import { User } from '../models/User.js';
 
 // export const movieRouter = new Hono().basePath('/movie'); This results in the path being : /api/movie/movie/popular
 const movieRouter = new Hono();
