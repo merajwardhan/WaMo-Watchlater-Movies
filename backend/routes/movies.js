@@ -113,7 +113,7 @@ movieRouter.post('/add/favorites', jwtAuth , async (c) => {
           release_date : body.release_date,
         },
         $addToSet : {
-          userFavorites : user._id //Adds only if not present
+          userFavorite : user._id //Adds only if not present
         }
       },
       { //This is the options object
