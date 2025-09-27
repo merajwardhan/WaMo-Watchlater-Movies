@@ -80,3 +80,7 @@ export const searchSavedMovies = async () => {
     return [];
   }
 }
+
+export const removeFavoriteMovie = async(details) => {
+
+}
