@@ -1,18 +1,20 @@
-
 import '../css/MovieCard.css'
 import { useState } from 'react';
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
+import { removeFavoriteMovie } from '../services/api.js';
+import { toast } from 'react-toastify';
 
 export default function MovieCard(props){
 
-  function onLike(){
-    alert('Clicked Like!!!');
+  async function onRemove(details){
+    try {
+      const response = await removeFavoriteMovie(details); 
+      if(response.ok) //page reload with new list logic
+      else //error message logic
+    } catch (error) {
+      toast.error(`Something went wrong while removing the movie\nError : ${error}`)
+    }
   }
-
-  function onSave(){
-    alert('Clicked Save!!!');
-  }
-
   
   // if(props.Poster === 'N/A') props.Poster = 'https://media.istockphoto.com/id/1409329028 should now modify props directly in react
   const GENERIC_POSTER = 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
@@ -30,7 +32,7 @@ export default function MovieCard(props){
           <div className = "moviePoster">
             <img src={imgSrc} alt={props.title} onError={handleImageError} />
             <div className = "movieOverlay">
-              <button className = "crossBtn" onClick={onLike}>
+              <button className = "crossBtn" onClick={() => onRemove(props)}>
                 ❌
               </button>
             </div>
