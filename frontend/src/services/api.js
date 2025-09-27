@@ -82,5 +82,13 @@ export const searchSavedMovies = async () => {
 }
 
 export const removeFavoriteMovie = async(details) => {
+<<<<<<< HEAD
 
+=======
+  try {
+    
+  } catch (error) {
+    
+  }
+>>>>>>> fd26b2a (feat: Created the removal function structure)
 }
