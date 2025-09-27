@@ -8,7 +8,7 @@ export async function getUsersFavoriteMovies(googleId){
         { $match : { googleId }},
         {
           $lookup : {
-            from : 'Movies',
+            from : 'movies',
             localField : 'favoriteMovies',
             foreignField : '_id',
             as : 'moviesDetails'
