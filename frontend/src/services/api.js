@@ -60,7 +60,7 @@ export const searchFavoriteMovies = async () => {
     });
     const data = await response.json();
 
-    if(data.results.lenght > 0) return data.results;
+    if(data.results.length > 0) return data.results;
     else return [];
   } catch (error) {
     console.log(`Network Or Api error in (searchFavoriteMovies) : ${error}`)
