@@ -135,4 +135,8 @@ movieRouter.post('/add/favorites', jwtAuth , async (c) => {
   }
 })
 
+movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
+
+})
+
 export default movieRouter; //made this default export to handle module not found error (tl,dr this did not resolve the error but stil kept the default export)
