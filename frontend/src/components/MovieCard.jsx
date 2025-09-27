@@ -6,9 +6,9 @@ const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
 export default function MovieCard(props){
 
-  async function onLike(){
+  async function onLike(details){ //The button passes the component's already available details
     try {
-      const response = await saveToFavorites(props);
+      const response = await saveToFavorites(details);
 
       if(response.success) {
           toast('Movie saved to favorites!',{   
@@ -65,7 +65,7 @@ export default function MovieCard(props){
           <div className = "moviePoster">
             <img src={imgSrc} alt={props.title} onError={handleImageError} />
             <div className = "movieOverlay">
-              <button className = "favoriteBtn" onClick={onLike}>
+              <button className = "favoriteBtn" onClick={() => onLike(props)}>
                 ❤️
               </button>
               <button className = "saveBtn" onClick={onSave}>
