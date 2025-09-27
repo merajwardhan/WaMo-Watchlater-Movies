@@ -34,7 +34,7 @@ export const saveToFavorites = async (details) => {
       title : details.title,
       poster_path : details.poster_path,
       release_date : details.release_date,
-      imdbID : details.id
+      id : details.id
     }
     const response = await fetch('http://localhost:3000/api/movie/add/favorites', {
       method : 'POST',

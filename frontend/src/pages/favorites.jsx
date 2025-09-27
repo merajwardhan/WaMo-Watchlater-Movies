@@ -22,7 +22,7 @@ export default function Favorites(){
 
       } catch (error) {
         console.log(`Error while fetching the favorite movies , Error = ${error}`)
-        setError(`Failed to load your favorite movies : ( \nPlease Try again!`);
+        setError(`Failed to load your favorite movies : \nPlease Try again!`);
         setMovies([])
       } finally{
         setLoading(false);
@@ -54,7 +54,7 @@ export default function Favorites(){
   <>
     { movies.length > 0 ? (
       <div className='moviesGrid'>
-        {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.imdbID}/>))}
+        {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.id}/>))}
       </div>
     ) : (
       <div className='favorites'>

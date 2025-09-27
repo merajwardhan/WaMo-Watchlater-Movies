@@ -2,7 +2,7 @@ import mongoose , { Schema } from 'mongoose';
 
 const movieSchema = new Schema({
   title : String,
-  imdbID : { type : Number , unique : true },
+  id : { type : Number , unique : true },
   poster_path : String ,
   release_date : String,
   userFavorite : [{ type : mongoose.Schema.Types.ObjectId , ref : 'User'}],
