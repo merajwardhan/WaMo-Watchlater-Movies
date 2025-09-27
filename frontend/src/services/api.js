@@ -28,16 +28,17 @@ export const searchMovies = async (query, page) => {
   }
 }
 
-export const saveToFavorites = async (props) => {
+export const saveToFavorites = async (details) => {
   try {
     const dataToSend = {
-      title : props.title,
-      poster_path : props.poster_path,
-      release_date : props.release_date,
-      imdbID : props.imdbID
+      title : details.title,
+      poster_path : details.poster_path,
+      release_date : details.release_date,
+      imdbID : details.id
     }
     const response = await fetch('http://localhost:3000/api/movie/add/favorites', {
       method : 'POST',
+      credentials : 'include',
       headers : {
         'Content-Type' : 'application/json'
       },
