@@ -8,9 +8,9 @@ export default function MovieCard(props){
 
   async function onRemove(details){
     try {
-      const response = await removeFavoriteMovie(details); 
-      if(response.ok) //page reload with new list logic
-      else //error message logic
+      const movieDeleted = await removeFavoriteMovie(details); 
+      if(movieDeleted) //page reload with new list logic
+      else toast.warn('Could not delete the movie , please try again later or contact the developer!')
     } catch (error) {
       toast.error(`Something went wrong while removing the movie\nError : ${error}`)
     }
