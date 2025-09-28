@@ -152,12 +152,12 @@ movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
       }
     })
     if(movie){
-      await Movie.findByIdAndUpdate(movie._id, {
+      const updatedMovie = await Movie.findByIdAndUpdate(movie._id, {
         $pull: {
           userFavorite : user._id
         }
       })
-      if(movie.userFavorite.length < 1) movie.deleteOne(); //deletes the movie document if no user has that movie as their favorite
+      if(updatedMovie.userFavorite.length === 0) await Movie.deleteOne({ _id : updatedMovie._id }); //deletes the movie document if no user has that movie as their favorite
     } 
 
     return c.json({ success : true , msg : `Movie removed successfully from favorites!`}, 200);
