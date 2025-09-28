@@ -136,7 +136,17 @@ movieRouter.post('/add/favorites', jwtAuth , async (c) => {
 })
 
 movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
-
+  const body = await c.req.json();
+  const googleId = c.get('googleId');
+  try {
+    const movieDeleted
+    const userDeleted = await Movie.findOneAndUpdate(
+      { id : body.id },
+    )
+  } catch (error) {
+    console.error(`An error occured while deleting the movie from favorites!\nError : ${error}`)
+    return c.json({ msg : `Could not delete the movie from favorites`}, 400);
+  }
 })
 
 export default movieRouter; //made this default export to handle module not found error (tl,dr this did not resolve the error but stil kept the default export)
