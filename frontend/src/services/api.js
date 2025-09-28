@@ -86,12 +86,14 @@ export const removeFavoriteMovie = async(details) => {
     const response = await fetch('http://localhost:3000/api/movie/remove/favorites', {
       method : 'DELETE', 
       credentials : 'include',
-      body : {
+      headers : {
+        'Content-Type' : 'application/json',
+      },
+      body : JSON.stringify({
         id : details.id
-      }
+      });
     })
 
-    const data = await response.json();
     if(response.ok) return true;
     else return false;
 
