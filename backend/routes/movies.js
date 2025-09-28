@@ -138,11 +138,27 @@ movieRouter.post('/add/favorites', jwtAuth , async (c) => {
 movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
   const body = await c.req.json();
   const googleId = c.get('googleId');
+
   try {
-    const movieDeleted
-    const userDeleted = await Movie.findOneAndUpdate(
-      { id : body.id },
-    )
+    const user = await User.findOne({ googleId }).select('_id favoriteMovies');
+    if(!user) return c.json({msg : `Unable to find the given user!`}, 400);
+
+    const movie = await Movie.findOne({ id : body.id }).select('_id userFavorite');
+    if(!movie) return c.json({ msg : `Unable to find the provided movie!`}, 400);
+
+    await User.findByIdAndUpdate(user._id , {
+      $pull : {
+        favoriteMovies : movie._id
+      }
+    })
+    await Movie.findByIdAndUpdate(movie._id, {
+      $pull: {
+        userFavorite : user._id
+      }
+    })
+
+    return c.json({ success : true , msg : `Movie removed successfully from favorites!`}, 200);
+
   } catch (error) {
     console.error(`An error occured while deleting the movie from favorites!\nError : ${error}`)
     return c.json({ msg : `Could not delete the movie from favorites`}, 400);
