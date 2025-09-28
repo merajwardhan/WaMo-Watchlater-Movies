@@ -82,13 +82,21 @@ export const searchSavedMovies = async () => {
 }
 
 export const removeFavoriteMovie = async(details) => {
-<<<<<<< HEAD
-
-=======
   try {
-    
+    const response = await fetch('http://localhost:3000/api/movie/remove/favorites', {
+      method : 'DELETE', 
+      credentials : 'include',
+      body : {
+        id : details.id
+      }
+    })
+
+    const data = await response.json();
+    if(response.ok) return true;
+    else return false;
+
   } catch (error) {
-    
+    console.log(`An error occured while removing the movie\nError : ${error}`)
+    return false;
   }
->>>>>>> fd26b2a (feat: Created the removal function structure)
 }
