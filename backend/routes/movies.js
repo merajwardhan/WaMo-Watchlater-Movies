@@ -144,18 +144,21 @@ movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
     if(!user) return c.json({msg : `Unable to find the given user!`}, 400);
 
     const movie = await Movie.findOne({ id : body.id }).select('_id userFavorite');
-    if(!movie) return c.json({ msg : `Unable to find the provided movie!`}, 400);
+    if(!movie) console.warn(`Movie not present , or not found!`);
 
     await User.findByIdAndUpdate(user._id , {
       $pull : {
         favoriteMovies : movie._id
       }
     })
-    await Movie.findByIdAndUpdate(movie._id, {
-      $pull: {
-        userFavorite : user._id
-      }
-    })
+    if(movie){
+      await Movie.findByIdAndUpdate(movie._id, {
+        $pull: {
+          userFavorite : user._id
+        }
+      })
+      if(movie.userFavorite.length < 1) movie.deleteOne(); //deletes the movie document if no user has that movie as their favorite
+    } 
 
     return c.json({ success : true , msg : `Movie removed successfully from favorites!`}, 200);
 
