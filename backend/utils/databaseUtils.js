@@ -30,32 +30,32 @@ export async function getUsersFavoriteMovies(googleId){
     }
   }
 
-  export async function getUsersSavedMovies(googleId){
+export async function getUsersSavedMovies(googleId){
 
-    try {
-      const foundMovies = await User.aggregate([
-          { $match : { googleId }},
-          {
-            $lookup : {
-              from : 'Movies',
-              localField : 'savedMovies',
-              foreignField : '_id',
-              as : 'moviesDetails'
-            }
-          },
-          {
-            $project : {
-              _id : 0, 
-              moviesDetails : 1
-            }
+  try {
+    const foundMovies = await User.aggregate([
+        { $match : { googleId }},
+        {
+          $lookup : {
+            from : 'movies',
+            localField : 'savedMovies',
+            foreignField : '_id',
+            as : 'moviesDetails'
           }
-        ]); 
+        },
+        {
+          $project : {
+            _id : 0, 
+            moviesDetails : 1
+          }
+        }
+      ]); 
 
-        return foundMovies; //This will return the whole user document with the new field which has the movies array
+      return foundMovies.length > 0 ? foundMovies.moviesDetails[0] : []; //This will return the whole user document with the new field which has the movies array
 
-      } catch (error) {
-        console.log(`Error while retrieving favorite movies!\nError : ${error}`)
-        return [];
-      }
+    } catch (error) {
+      console.log(`Error while retrieving saved movies!\nError : ${error}`)
+      return [];
+    }
 }
 
