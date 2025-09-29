@@ -176,4 +176,17 @@ movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
   }
 })
 
+movieRouter.get('/saved', jwtAuth , async (c) => {
+  try {
+    const googleId = c.get('googleId');
+    const savedMovies = await getUsersSavedMovies(googleId);
+
+    return c.json({ results : savedMovies }, 200);
+
+  } catch (error) {
+    console.log(`Error while fetching the saved movies in /saved\nError : ${error}`)
+    return c.json({ msg : `something went wrong while fetching saved`}, 401);
+  }
+})
+
 export default movieRouter; //made this default export to handle module not found error (tl,dr this did not resolve the error but stil kept the default export)
