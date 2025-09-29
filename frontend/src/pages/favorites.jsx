@@ -2,6 +2,7 @@ import '../css/Favorites.css'
 import SavedMovieCard from '../components/SavedMovieCard.jsx';
 import { searchFavoriteMovies } from '../services/api.js';
 import { useState , useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Favorites(){
 
@@ -13,9 +14,12 @@ export default function Favorites(){
 
   function handleMovieRemoval(id){
     try {
-      setMovies(movies.filter((movie) => {
-        movie.id !== id
-      })) 
+      setMovies(prevMovies => {
+        return prevMovies.filter((movie) => { //another explicit return 
+          return movie.id !== id; //explicit return 
+        })
+      })
+      toast(`Movie removed successfully from favorites!`);
     } catch (error) {
       toast.error(`Something went wrong while removing the movie from the local list\nPlease reload the page!`)
     }
