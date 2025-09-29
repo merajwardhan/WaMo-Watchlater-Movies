@@ -1,8 +1,8 @@
 import '../css/Favorites.css'
 import SavedMovieCard from '../components/SavedMovieCard.jsx';
 import { searchFavoriteMovies } from '../services/api.js';
-import { useState , useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { useState , useEffect, useRef } from 'react';
+import { toast, ToastContainer, Bounce } from 'react-toastify';
 
 export default function Favorites(){
 
@@ -11,6 +11,7 @@ export default function Favorites(){
   const [ page , setPage ] = useState(1);
   const [ loading , setLoading ] = useState(true); 
   const [ totalpages , setTotalPages ] = useState(0);
+  const prevMoviesLength = useRef(null);
 
   function handleMovieRemoval(id){
     try {
@@ -19,11 +20,24 @@ export default function Favorites(){
           return movie.id !== id; //explicit return 
         })
       })
-      toast(`Movie removed successfully from favorites!`);
     } catch (error) {
       toast.error(`Something went wrong while removing the movie from the local list\nPlease reload the page!`)
     }
   }
+
+  useEffect( () => {
+    const currentLength = movies.length;
+    const previousLength = prevMoviesLength.current;
+    
+    if(previousLength === null) {
+      prevMoviesLength.current = movies.length;
+      return ;
+    }
+
+    if(currentLength < previousLength) toast('Movie removed successfully from the favorites!')
+
+    prevMoviesLength.current = movies.length;
+  }, [movies])
 
   useEffect( () => {
     const fetchFavorites = async () => {
@@ -66,10 +80,24 @@ export default function Favorites(){
 
   return (
   <>
-    { movies.length > 0 ? (
+    { movies.length > 0 ? ( <>
       <div className='moviesGrid'>
         {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.id} onRemoveSuccess={handleMovieRemoval}/>))}
       </div>
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Bounce}
+      />
+    </>
     ) : (
       <div className='favorites'>
         <h2>No Favorite movies yet!</h2>

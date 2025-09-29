@@ -91,7 +91,7 @@ export const removeFavoriteMovie = async(details) => {
       },
       body : JSON.stringify({
         id : details.id
-      });
+      }),
     })
 
     if(response.ok) return true;
