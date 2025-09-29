@@ -70,7 +70,9 @@ export const searchFavoriteMovies = async () => {
 
 export const searchSavedMovies = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/movie/saved');
+    const response = await fetch('http://localhost:3000/api/movie/saved', {
+      credentials : 'include',
+    });
     const data = await response.json();
 
     if(data.results.lenght > 0) return data.results;
