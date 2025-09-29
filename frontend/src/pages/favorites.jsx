@@ -11,6 +11,16 @@ export default function Favorites(){
   const [ loading , setLoading ] = useState(true); 
   const [ totalpages , setTotalPages ] = useState(0);
 
+  function handleMovieRemoval(id){
+    try {
+      setMovies(movies.filter((movie) => {
+        movie.id !== id
+      })) 
+    } catch (error) {
+      toast.error(`Something went wrong while removing the movie from the local list\nPlease reload the page!`)
+    }
+  }
+
   useEffect( () => {
     const fetchFavorites = async () => {
       try {
@@ -54,7 +64,7 @@ export default function Favorites(){
   <>
     { movies.length > 0 ? (
       <div className='moviesGrid'>
-        {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.id}/>))}
+        {movies.map((mov) => (<SavedMovieCard {...mov} key={mov.id} onRemoveSuccess={handleMovieRemoval}/>))}
       </div>
     ) : (
       <div className='favorites'>
