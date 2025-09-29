@@ -6,10 +6,12 @@ import { toast } from 'react-toastify';
 
 export default function MovieCard(props){
 
-  async function onRemove(details){
+  const { onRemoveSuccess , ...details } = props; //here ...details is using the rest property syntax , meaning the rest of the properties of the prop (prop.id, prop.title) are destructed in the details variable
+
+  async function onRemove(){
     try {
       const movieDeleted = await removeFavoriteMovie(details); 
-      if(movieDeleted) //page reload with new list logic
+      if(movieDeleted) onRemoveSuccess(details.id);
       else toast.warn('Could not delete the movie , please try again later or contact the developer!')
     } catch (error) {
       toast.error(`Something went wrong while removing the movie\nError : ${error}`)
@@ -32,7 +34,7 @@ export default function MovieCard(props){
           <div className = "moviePoster">
             <img src={imgSrc} alt={props.title} onError={handleImageError} />
             <div className = "movieOverlay">
-              <button className = "crossBtn" onClick={() => onRemove(props)}>
+              <button className = "crossBtn" onClick={onRemove}>
                 ❌
               </button>
             </div>
