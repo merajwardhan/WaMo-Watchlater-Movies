@@ -53,6 +53,31 @@ export const saveToFavorites = async (details) => {
   }
 }
 
+export const saveToSaved = async (details) => {
+  try {
+    const dataToSend = {
+      title : details.title,
+      poster_path : details.poster_path,
+      release_date : details.release_date,
+      id : details.id
+    }
+    const response = await fetch('http://localhost:3000/api/movie/add/saved', {
+      method : 'POST',
+      credentials : 'include',
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      body : JSON.stringify(dataToSend)
+    });
+     
+    if(response.ok) return { success : true , status : response.status }; // is response okay when it is 200?
+    else return { success : false , status : response.status , error : await response.text()};
+  } catch (error) {
+    console.log(`Error in saving function FE\nError : ${error}`)
+    return { success : false , error : error.message };
+  }
+}
+
 export const searchFavoriteMovies = async () => {
   try {
     const response = await fetch(`http://localhost:3000/api/movie/favorites`, {
