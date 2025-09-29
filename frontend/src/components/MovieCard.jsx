@@ -35,17 +35,31 @@ export default function MovieCard(props){
   }
 
   function onSave(){
-    toast('✔️ Added to saved!!!',{   
-        position:"top-right",
-        autoClose: 5000,
-        hideProgressBar: false ,
-        closeOnClick: false ,
-        draggable: true,
-        pauseOnHover : true,
-        progress: undefined,
-        theme:"dark",
-        transition: Bounce,
-    });
+    try {
+      const response = await saveToSaved(details);
+
+      if(response.success) {
+          toast('Movie saved to favorites!',{   
+          position:"top-right",
+          autoClose: 5000,
+          hideProgressBar: false ,
+          closeOnClick: false ,
+          draggable: true,
+          pauseOnHover : true,
+          progress: undefined,
+          theme:"dark",
+          transition: Bounce,
+      });
+      }else{
+        if(response.status === 404)  toast.warn(`User not found please login again!`);
+        else if(response.status === 400) toast.warn(`Could not add to saved, Something went wrong!`);
+        else toast.error(`Something went wrong!\nError = ${response.error}`);
+      }
+
+    } catch (error) {
+      console.log(`Error occured while adding movie to saved!\nError : ${error}`)
+      toast.error(`Could not add movie to saved because of a error!`)
+    }
   }
 
   
