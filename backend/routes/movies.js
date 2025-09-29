@@ -135,49 +135,6 @@ movieRouter.post('/add/favorites', jwtAuth , async (c) => {
   }
 })
 
-movieRouter.post('/add/saved', jwtAuth , async (c) => {
-  try {
-    const body = await c.req.json();
-    const googleId = c.get('googleId');
-    const user = await User.findOne({ googleId });
-
-    if(!user){
-      console.log(`User not found`);
-      return c.json({ msg : `User not found`}, 404);
-    }
-
-    const movie = await Movie.findOneAndUpdate( 
-      { id : body.id }, // The query object
-      { // This is the update object
-        $setOnInsert : { //Only set this fields when upserting (creating the movie document)
-          title : body.title,
-          id : body.id,
-          poster_path : body.poster_path,
-          release_date : body.release_date,
-        },
-        $addToSet : {
-          userSaved : user._id //Adds only if not present
-        }
-      },
-      { //This is the options object
-        upsert : true ,
-        new : true, // This option should return us the new document
-        runValidators : true //forces mongoose to validate the schema before making the updates
-       }
-    ) 
-
-    await User.findByIdAndUpdate( user._id , {
-      $addToSet : { savedMovies : movie._id } //Addes only not present
-    })
-
-    return c.json({ msg : `Movie saved to saved`}, 200);
-
-  } catch (error) {
-    console.log(`Error while adding movie to saved\nError : ${error}`);
-    return c.json({ msg : `Error while adding movie to saved`}, 400);
-  }
-})
-
 movieRouter.delete('/remove/favorites', jwtAuth , async (c) => {
   const body = await c.req.json();
   const googleId = c.get('googleId');
@@ -229,6 +186,89 @@ movieRouter.get('/saved', jwtAuth , async (c) => {
   } catch (error) {
     console.log(`Error while fetching the saved movies in /saved\nError : ${error}`)
     return c.json({ msg : `something went wrong while fetching saved`}, 401);
+  }
+})
+
+movieRouter.post('/add/saved', jwtAuth , async (c) => {
+  try {
+    const body = await c.req.json();
+    const googleId = c.get('googleId');
+    const user = await User.findOne({ googleId });
+
+    if(!user){
+      console.log(`User not found`);
+      return c.json({ msg : `User not found`}, 404);
+    }
+
+    const movie = await Movie.findOneAndUpdate( 
+      { id : body.id }, // The query object
+      { // This is the update object
+        $setOnInsert : { //Only set this fields when upserting (creating the movie document)
+          title : body.title,
+          id : body.id,
+          poster_path : body.poster_path,
+          release_date : body.release_date,
+        },
+        $addToSet : {
+          userSaved : user._id //Adds only if not present
+        }
+      },
+      { //This is the options object
+        upsert : true ,
+        new : true, // This option should return us the new document
+        runValidators : true //forces mongoose to validate the schema before making the updates
+      }
+    ) 
+
+    await User.findByIdAndUpdate( user._id , {
+      $addToSet : { savedMovies : movie._id } //Addes only not present
+    })
+
+    return c.json({ msg : `Movie saved to saved`}, 200);
+
+  } catch (error) {
+    console.log(`Error while adding movie to saved\nError : ${error}`);
+    return c.json({ msg : `Error while adding movie to saved`}, 400);
+  }
+})
+
+movieRouter.delete('/remove/saved', jwtAuth , async (c) => {
+  const body = await c.req.json();
+  const googleId = c.get('googleId');
+
+  try {
+    const user = await User.findOne({ googleId }).select('_id savedMovies');
+    if(!user) return c.json({msg : `Unable to find the given user!`}, 400);
+
+    const movie = await Movie.findOne({ id : body.id }).select('_id userSaved');
+    if(!movie) console.warn(`Movie not present , or not found!`);
+
+    if(movie){
+
+      await User.findByIdAndUpdate(user._id , {
+        $pull : {
+          savedMovies : movie._id
+        }
+      }) //delete the movie from the user's array only if the movie document is present
+
+      const updatedMovie = await Movie.findByIdAndUpdate(
+        movie._id, 
+        {
+          $pull: {
+            userSaved : user._id
+          },
+        },
+        { new : true },
+      )
+
+      if(updatedMovie.userSaved.length === 0) await Movie.deleteOne({ _id : updatedMovie._id }); //deletes the movie document if no user has that movie as their favorite
+    } 
+
+    return c.json({ success : true , msg : `Movie removed successfully from saved!`}, 200);
+
+  } catch (error) {
+    console.error(`An error occured while deleting the movie from saved!\nError : ${error}`)
+    return c.json({ msg : `Could not delete the movie from saved`}, 400);
   }
 })
 
