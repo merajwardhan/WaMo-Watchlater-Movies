@@ -129,3 +129,25 @@ export const removeFavoriteMovie = async(details) => {
     return false;
   }
 }
+
+export const removeSavedMovie = async(details) => {
+  try {
+    const response = await fetch('http://localhost:3000/api/movie/remove/saved', {
+      method : 'DELETE', 
+      credentials : 'include',
+      headers : {
+        'Content-Type' : 'application/json',
+      },
+      body : JSON.stringify({
+        id : details.id
+      }),
+    })
+
+    if(response.ok) return true;
+    else return false;
+
+  } catch (error) {
+    console.log(`An error occured while removing the movie\nError : ${error}`)
+    return false;
+  }
+}

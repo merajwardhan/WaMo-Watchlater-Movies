@@ -1,16 +1,19 @@
 import '../css/MovieCard.css'
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
-import { removeFavoriteMovie } from '../services/api.js';
+import { removeFavoriteMovie, removeSavedMovie } from '../services/api.js';
 import { toast } from 'react-toastify';
 
 export default function MovieCard(props){
 
+  const location = useLocation();
   const { onRemoveSuccess , ...details } = props; //here ...details is using the rest property syntax , meaning the rest of the properties of the prop (prop.id, prop.title) are destructed in the details variable
 
   async function onRemove(){
     try {
-      const movieDeleted = await removeFavoriteMovie(details); 
+      const movieDeleted = location.pathname === '/favorites' ? await removeFavoriteMovie(details) : await removeSavedMovie(details)
+ 
       if(movieDeleted) onRemoveSuccess(details.id);
       else toast.warn('Could not delete the movie , please try again later or contact the developer!')
     } catch (error) {
