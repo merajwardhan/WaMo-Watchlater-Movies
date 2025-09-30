@@ -102,6 +102,24 @@ authRouter.get('/me', jwtAuth , async (c) => {
   }
 })
 
+authRouter.post('/logout', jwtAuth, async (c) => {
+  try {
+    setCookie(c, 'jwt', '' , {
+      httpOnly : true,
+      secure : false, //true for production (https)
+      sameSite : 'Lax',
+      path : '/', // makes the cookie available to all url paths
+      expires : new Date(0)
+    })
+
+    return c.json({ msg : `Logout successfull!`}, 200);
+
+  } catch (error) {
+    console.error(`Something went wrong while logging out`)
+    return c.json({ msg : `Could not log out`}, 400);
+  }
+})
+
 export default authRouter;
 
 // Logout logic for session 
