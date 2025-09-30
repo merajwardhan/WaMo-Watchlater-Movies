@@ -151,3 +151,19 @@ export const removeSavedMovie = async(details) => {
     return false;
   }
 }
+
+export const logUserOut = async() => {
+  try {
+    const response = await fetch('http://localhost:3000/api/auth/logout', {
+      method : 'POST',
+      credentials : 'include'
+    })
+
+    if(response.ok) return true;
+    else return false;
+
+  } catch (error) {
+    console.error(`Something went wrong while deleting the user, in FE\nError : ${error}`)   
+    return false;
+  }
+}
