@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 
 const DATABASE_NAME = "Wamo";
-const MONGO_URL = `mongodb://localhost:27017/${DATABASE_NAME}`; 
+const MONGO_URL = process.env.MONGO_URL; 
 export async function connectDB() {
   try {
     const conn = await mongoose.connect(MONGO_URL);
