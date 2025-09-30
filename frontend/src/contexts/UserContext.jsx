@@ -1,4 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://wamo-watchlater-movies.onrender.com'
+  : 'http://localhost:3000';
 
 const UserContext = createContext(null);
 
@@ -8,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   const authStatus = async function () {
     try {
-      const response = await fetch('http://localhost:3000/api/auth/me', {
+      const response = await fetch(`${API_URL}/api/auth/me`, {
         credentials : "include", //The frontend doesn't send sensitive info like cookies without us explicitely telling it to do so
       });
 

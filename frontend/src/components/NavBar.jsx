@@ -4,6 +4,11 @@ import '../css/NavBar.css';
 import { useUser } from '../contexts/UserContext.jsx';
 import { logUserOut } from '../services/api.js';
 import { toast } from 'react-toastify';
+
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://wamo-watchlater-movies.onrender.com'
+  : 'http://localhost:3000';
+
 export default function NavBar(){
 
   const { user, setUser, loading } = useUser(); //Destructure the created custom hook
@@ -43,7 +48,7 @@ export default function NavBar(){
                 <button onClick={logoutUser} className='searchButton'>Log out!</button>
               </>
             ) : (
-              <a href="http://localhost:3000/api/auth/google" className='navLinkUser'>Login with google</a>
+              <a href={`${API_URL}/api/auth/google`} className='navLinkUser'>Login with google</a>
             )
         ) }
       </div>

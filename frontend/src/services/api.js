@@ -1,10 +1,10 @@
-// import dotenv from 'dotenv';
-// dotenv.config();
-// need for backend not frontend
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://wamo-watchlater-movies.onrender.com'
+  : 'http://localhost:3000';
 
 export const getPopularMovies = async (page) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/movie/popular?page=${page}`);
+    const response = await fetch(`${API_URL}/api/movie/popular?page=${page}`);
     const data = await response.json();
     
     if(data.details.results.length > 0) return data.details;
@@ -17,7 +17,7 @@ export const getPopularMovies = async (page) => {
 
 export const searchMovies = async (query, page) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/movie/search?query=${query}&page=${page}`);
+    const response = await fetch(`${API_URL}/api/movie/search?query=${query}&page=${page}`);
     const data = await response.json();
 
     if(data.details.results.length > 0) return data.details;
@@ -36,7 +36,7 @@ export const saveToFavorites = async (details) => {
       release_date : details.release_date,
       id : details.id
     }
-    const response = await fetch('http://localhost:3000/api/movie/add/favorites', {
+    const response = await fetch(`${API_URL}/api/movie/add/favorites`, {
       method : 'POST',
       credentials : 'include',
       headers : {
@@ -61,7 +61,7 @@ export const saveToSaved = async (details) => {
       release_date : details.release_date,
       id : details.id
     }
-    const response = await fetch('http://localhost:3000/api/movie/add/saved', {
+    const response = await fetch(`${API_URL}/api/movie/add/saved`, {
       method : 'POST',
       credentials : 'include',
       headers : {
@@ -80,7 +80,7 @@ export const saveToSaved = async (details) => {
 
 export const searchFavoriteMovies = async () => {
   try {
-    const response = await fetch(`http://localhost:3000/api/movie/favorites`, {
+    const response = await fetch(`${API_URL}/api/movie/favorites`, {
       credentials : 'include',
     });
     const data = await response.json();
@@ -95,7 +95,7 @@ export const searchFavoriteMovies = async () => {
 
 export const searchSavedMovies = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/movie/saved', {
+    const response = await fetch(`${API_URL}/api/movie/saved`, {
       credentials : 'include',
     });
     const data = await response.json();
@@ -110,7 +110,7 @@ export const searchSavedMovies = async () => {
 
 export const removeFavoriteMovie = async(details) => {
   try {
-    const response = await fetch('http://localhost:3000/api/movie/remove/favorites', {
+    const response = await fetch(`${API_URL}/api/movie/remove/favorites`, {
       method : 'DELETE', 
       credentials : 'include',
       headers : {
@@ -132,7 +132,7 @@ export const removeFavoriteMovie = async(details) => {
 
 export const removeSavedMovie = async(details) => {
   try {
-    const response = await fetch('http://localhost:3000/api/movie/remove/saved', {
+    const response = await fetch(`${API_URL}/api/movie/remove/saved`, {
       method : 'DELETE', 
       credentials : 'include',
       headers : {
@@ -154,7 +154,7 @@ export const removeSavedMovie = async(details) => {
 
 export const logUserOut = async() => {
   try {
-    const response = await fetch('http://localhost:3000/api/auth/logout', {
+    const response = await fetch(`${API_URL}/api/auth/logout`, {
       method : 'POST',
       credentials : 'include'
     })
