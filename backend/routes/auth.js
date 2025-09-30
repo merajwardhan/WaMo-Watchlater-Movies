@@ -7,7 +7,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const CALLBACK_URL = 'http://localhost:3000/api/auth/google/callback';
+const CALLBACK_URL = 'https://wamo-watchlater-movies.onrender.com/api/auth/google/callback';
 const JWT_SECRET = process.env.JWT_SECRET;
 const authRouter = new Hono();
 
@@ -75,7 +75,7 @@ authRouter.get('/google/callback',
         maxAge : 60 * 60 * 24 * 365 // 1 year
       })
 
-      return c.redirect('http://localhost:5173'); // This actually sets the location header
+      return c.redirect('https://wamo-watchlater-movies.onrender.com'); // This actually sets the location header
 
     } catch (error) {
       console.error( `An error occured while connecting to Goolge auth : ${error}`);

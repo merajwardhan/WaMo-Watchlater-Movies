@@ -15,7 +15,7 @@ export async function exchangeCodeForTokens(code){
       client_secret : process.env.GOOGLE_CLIETN_SECRET,
       code , // shorthand for code : code
       grant_type : 'authorization_code', //This is the "code" that we got earlier and are telling the server that we have this code provide the userinformation for this code
-      redirect_url : 'http://localhost:3000/api/auth/google/callback'
+      redirect_url : 'https://wamo-watchlater-movies.onrender.com/api/auth/google/callback'
     })
   })
 
