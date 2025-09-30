@@ -1,12 +1,14 @@
 import '../css/MovieCard.css'
 import { useState } from 'react';
 import { toast , Bounce } from 'react-toastify';
-import { saveToFavorites } from '../services/api.js'
+import { saveToFavorites, saveToSaved } from '../services/api.js'
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
 export default function MovieCard(props){
 
-  async function onLike(details){ //The button passes the component's already available details
+  const { ...details } = props;
+
+  async function onLike(){ //The button passes the component's already available details
     try {
       const response = await saveToFavorites(details);
 
@@ -34,12 +36,12 @@ export default function MovieCard(props){
     }
   }
 
-  function onSave(){
+  async function onSave(){
     try {
       const response = await saveToSaved(details);
 
       if(response.success) {
-          toast('Movie saved to favorites!',{   
+          toast('Movie saved to Saved!',{   
           position:"top-right",
           autoClose: 5000,
           hideProgressBar: false ,
@@ -79,7 +81,7 @@ export default function MovieCard(props){
           <div className = "moviePoster">
             <img src={imgSrc} alt={props.title} onError={handleImageError} />
             <div className = "movieOverlay">
-              <button className = "favoriteBtn" onClick={() => onLike(props)}>
+              <button className = "favoriteBtn" onClick={onLike}>
                 ❤️
               </button>
               <button className = "saveBtn" onClick={onSave}>
