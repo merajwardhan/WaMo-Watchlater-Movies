@@ -51,7 +51,7 @@ export async function getUsersSavedMovies(googleId){
         }
       ]); 
 
-      return foundMovies.length > 0 ? foundMovies.moviesDetails[0] : []; //This will return the whole user document with the new field which has the movies array
+      return foundMovies.length > 0 ? foundMovies[0].moviesDetails : []; //This will return the whole user document with the new field which has the movies array
 
     } catch (error) {
       console.log(`Error while retrieving saved movies!\nError : ${error}`)
