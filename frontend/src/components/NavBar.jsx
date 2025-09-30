@@ -29,9 +29,11 @@ export default function NavBar(){
         <Link to='/'>WaMo - Watch Movies Later</Link>
       </div>
       <div className='navBarLinks'>
-        <Link to='/' className='navLink'>Home</Link>
-        <Link to='/favorites' className='navLink'>Favorites</Link>
-        <Link to='/saved' className='navLink'>Saved</Link>
+        <div className='navLinkDiv'>
+          <Link to='/' className='navLink'>Home</Link>
+          <Link to='/favorites' className='navLink'>Favorites</Link>
+          <Link to='/saved' className='navLink'>Saved</Link>
+        </div>
         { loading ? (
           <span className='navLinkUser' >Loading!!!</span>
         ) : ( user ? 

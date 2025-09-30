@@ -15,6 +15,7 @@
 .navBarLinks {
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .navLink {
@@ -28,13 +29,21 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.navLinkDiv {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
 .navLinkUser {
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: background-color 0.2s, border-color 0.2s; /* Added border-color transition */
   border-radius: 2px;
-  border: 1px solid #8b5cf6
+  border: 1px solid #8b5cf6;
+  text-align: center;
 }
 
 .navLinkUser:hover {
@@ -44,6 +53,7 @@
 
 @media (max-width: 768px) {
   .navBar {
+    flex-direction: column;
     padding: 1rem;
   }
 
@@ -52,7 +62,9 @@
   }
 
   .navBarLinks {
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
 
   .navLink {
