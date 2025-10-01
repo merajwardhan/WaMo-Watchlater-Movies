@@ -69,7 +69,7 @@ authRouter.get('/google/callback',
       
       setCookie(c, 'jwt', jwtAuthToken , {
         httpOnly : true,
-        secure : false, //true for production (https)
+        secure : true, //true for production (https)
         sameSite : 'Lax',
         path : '/', // makes the cookie available to all url paths
         maxAge : 60 * 60 * 24 * 365 // 1 year
