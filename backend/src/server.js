@@ -8,9 +8,12 @@ import { jwtAuth } from '../middlewares/auth.js'
 const app = new Hono();
 import { connectDB } from '../config/database.js';
 await connectDB();
+const port = process.env.PORT || 3000;
 
 app.use('/api/*', cors({
-  origin : "https://wamo.onrender.com",
+  origin : process.env.NODE_ENV === 'production'
+    ? "https://wamo.onrender.com"
+    : "http://localhost:5173",
   allowMethods : ['GET', 'POST', 'OPTIONS', 'DELETE'],
   allowHeaders : [`Content-Type`],
   credentials : true,
@@ -39,7 +42,7 @@ if (authRouter) {
 //The connection to the databse should be establised before you start the server
 const server = serve({
   fetch: app.fetch,
-  port: 3000
+  port: port
 }, (info) => {
   console.log(`Server is running on http://${info.address}:${info.port}`);
 });
