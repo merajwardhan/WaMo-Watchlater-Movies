@@ -75,7 +75,7 @@ authRouter.get('/google/callback',
         maxAge : 60 * 60 * 24 * 365 // 1 year
       })
 
-      return c.redirect('https://wamo-watchlater-movies.onrender.com'); // This actually sets the location header
+      return c.redirect('https://wamo.onrender.com/'); // This actually sets the location header
 
     } catch (error) {
       console.error( `An error occured while connecting to Goolge auth : ${error}`);
