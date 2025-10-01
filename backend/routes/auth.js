@@ -58,7 +58,7 @@ authRouter.get('/google/callback',
           $set : {
             google : payload.sub,
             name : payload.name,
-            email: payload.email,
+            gmail: payload.email,
             picture: payload.picture
           },
         },
