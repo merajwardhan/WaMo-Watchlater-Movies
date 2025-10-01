@@ -72,6 +72,7 @@ authRouter.get('/google/callback',
         secure : true, //true for production (https)
         sameSite : 'Lax',
         path : '/', // makes the cookie available to all url paths
+        domain : '.onrender.com',
         maxAge : 60 * 60 * 24 * 365 // 1 year
       })
 
