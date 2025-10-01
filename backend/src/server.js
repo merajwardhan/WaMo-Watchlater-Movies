@@ -10,7 +10,7 @@ import { connectDB } from '../config/database.js';
 await connectDB();
 
 app.use('/api/*', cors({
-  origin : "http://localhost:5173",
+  origin : "https://wamo.onrender.com",
   allowMethods : ['GET', 'POST', 'OPTIONS', 'DELETE'],
   allowHeaders : [`Content-Type`],
   credentials : true,
