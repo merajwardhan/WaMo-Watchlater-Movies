@@ -111,13 +111,15 @@ authRouter.get('/me', jwtAuth , async (c) => {
 
 authRouter.post('/logout', jwtAuth, async (c) => {
   try {
-    setCookie(c, 'jwt', '' , {
-      httpOnly : true,
-      secure : false, //true for production (https)
-      sameSite : 'Lax',
-      path : '/', // makes the cookie available to all url paths
-      expires : new Date(0)
-    })
+      setCookie(c, 'jwt', '' , {
+        httpOnly : true,
+        secure : process.env.NODE_ENV === 'production'
+          ? true
+          : false, 
+        sameSite : process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        path : '/', 
+        maxAge : new Date(0)
+      })
 
     return c.json({ msg : `Logout successfull!`}, 200);
 
