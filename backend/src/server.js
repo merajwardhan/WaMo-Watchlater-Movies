@@ -46,17 +46,3 @@ const server = serve({
 }, (info) => {
   console.log(`Server is running on http://${info.address}:${info.port}`);
 });
-
-// TODO: Add the middlewares here , also uncomment the database connection code.
-
-// serve(app); //default server is 3000 
-// serve( app , { port : 8000 }) this will change the default server
-
-// import express from 'express';
-// const app = express();
-
-// app.get('/', (req,res) => {
-//   res.send(`Express running totally fine!`);
-// })
-
-// app.listen ( 3000 , console.log(`Server running on port 3000!`));
