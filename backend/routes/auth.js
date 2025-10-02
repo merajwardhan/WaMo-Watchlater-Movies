@@ -76,9 +76,6 @@ authRouter.get('/google/callback',
           : false, //true for production (https)
         sameSite : process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
         path : '/', // makes the cookie available to all url paths
-        domain : process.env.NODE_ENV === 'production' 
-          ? '.onrender.com'
-          : 'localhost',
         maxAge : 60 * 60 * 24 * 365 // 1 year
       })
 
