@@ -1,6 +1,9 @@
 // Those extra function that we require are given below
 // Utility functions for Google OAuth
 // import 'dotenv/config'; //Dont have to import dotenv after configuring a the top level (server.js), it is made available as a globally by nodejs, saved into nodejs process.env
+const API_URL = process.env.NODE_ENV === 'production'
+                ? 'https://wamo-watchlater-movies.onrender.com'
+                : 'http://localhost:3000';
 
 export async function exchangeCodeForTokens(code){
   const tokenUrl = 'https://oauth2.googleapis.com/token'
@@ -15,7 +18,7 @@ export async function exchangeCodeForTokens(code){
       client_secret : process.env.GOOGLE_CLIETN_SECRET,
       code , // shorthand for code : code
       grant_type : 'authorization_code', //This is the "code" that we got earlier and are telling the server that we have this code provide the userinformation for this code
-      redirect_url : 'https://wamo-watchlater-movies.onrender.com/api/auth/google/callback'
+      redirect_url : `${API_URL}/api/auth/google/callback`
     })
   })
 
