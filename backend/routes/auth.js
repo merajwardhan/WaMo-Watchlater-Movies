@@ -7,7 +7,9 @@ import { OAuth2Client } from 'google-auth-library';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const CALLBACK_URL = 'https://wamo-watchlater-movies.onrender.com/api/auth/google/callback';
+const CALLBACK_URL = process.env.NODE_ENV === 'production' 
+                    ? 'https://wamo-watchlater-movies.onrender.com/api/auth/google/callback'
+                    : 'http://localhost:3000/api/auth/google/callback';
 const JWT_SECRET = process.env.JWT_SECRET;
 const authRouter = new Hono();
 
@@ -69,14 +71,21 @@ authRouter.get('/google/callback',
       
       setCookie(c, 'jwt', jwtAuthToken , {
         httpOnly : true,
-        secure : true, //true for production (https)
-        sameSite : 'None',
+        secure : process.env.NODE_ENV === 'production'
+          ? true
+          : false, //true for production (https)
+        sameSite : 'Lax',
         path : '/', // makes the cookie available to all url paths
-        domain : '.onrender.com',
+        domain : process.env.NODE_ENV === 'production' 
+          ? '.onrender.com'
+          : 'localhost',
         maxAge : 60 * 60 * 24 * 365 // 1 year
       })
 
-      return c.redirect('https://wamo.onrender.com/'); // This actually sets the location header
+      return c.redirect(process.env.NODE_ENV === 'production'
+        ? 'https://wamo.onrender.com/'
+        : 'http://localhost:5173/'
+      ); // This actually sets the location header
 
     } catch (error) {
       console.error( `An error occured while connecting to Goolge auth : ${error}`);
