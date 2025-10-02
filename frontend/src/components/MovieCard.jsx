@@ -2,15 +2,21 @@ import '../css/MovieCard.css'
 import { useState } from 'react';
 import { toast , Bounce } from 'react-toastify';
 import { saveToFavorites, saveToSaved } from '../services/api.js'
+import { useUser } from '../contexts/UserContext.jsx';
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_PATH;
 
 export default function MovieCard(props){
 
   const { ...details } = props;
+  const { user } = useUser();
 
   async function onLike(){ //The button passes the component's already available details
     try {
       const response = await saveToFavorites(details);
+      if(!user) {
+        toast.warn('Please login before saving the movie to favorites')
+        return ;
+      }
 
       if(response.success) {
           toast('Movie saved to favorites!',{   
@@ -39,6 +45,10 @@ export default function MovieCard(props){
   async function onSave(){
     try {
       const response = await saveToSaved(details);
+      if(!user) {
+        toast.warn('Please login before saving the movie to Saved')
+        return ;
+      }
 
       if(response.success) {
           toast('Movie saved to Saved!',{   
