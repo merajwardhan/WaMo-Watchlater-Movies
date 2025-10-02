@@ -74,7 +74,7 @@ authRouter.get('/google/callback',
         secure : process.env.NODE_ENV === 'production'
           ? true
           : false, //true for production (https)
-        sameSite : 'Lax',
+        sameSite : process.env.NODE_ENV === production ? 'None' : 'Lax',
         path : '/', // makes the cookie available to all url paths
         domain : process.env.NODE_ENV === 'production' 
           ? '.onrender.com'
